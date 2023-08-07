@@ -6,7 +6,7 @@ export function addTaskForm() {
     const taskDescription = document.createElement('input');
     const dueDate = document.createElement('input');
     const priority = document.createElement('select');
-    const project = document.createElement('select');
+    // const project = document.createElement('select');
     const cancelButton = document.createElement('button');
     const addTaskButton = document.createElement('button');
 
@@ -14,7 +14,7 @@ export function addTaskForm() {
 
     taskName.type = 'text';
     taskDescription.type = 'text';
-    dueDate.type = 'datetime-local';
+    dueDate.type = 'date';
     cancelButton.type = 'button'; // close the form, reset fields
     addTaskButton.type = 'submit'; // need to prevent default, if there isn't a task name - gray out the button
 
@@ -29,7 +29,7 @@ export function addTaskForm() {
     taskDescription.id = 'description';
     dueDate.id = 'date';
     priority.id = 'priority';
-    project.id = 'project';
+    // project.id = 'project';
 
     cancelButton.value = 'cancel';
     addTaskButton.value = 'submit';
@@ -65,22 +65,22 @@ export function addTaskForm() {
 
         // Project Options
         // Get them from the array that holds all projects
-        const inbox = document.createElement('option');
+        // const inbox = document.createElement('option');
 
-        inbox.selected = true;
+        // inbox.selected = true;
 
-        inbox.text = 'Inbox';
+        // inbox.text = 'Inbox';
 
-        inbox.value = 'inbox';
+        // inbox.value = 'inbox';
 
-        project.add(inbox);
+        // project.add(inbox);
 
     content.appendChild(taskForm);
     taskForm.appendChild(taskName);
     taskForm.appendChild(taskDescription);
     taskForm.appendChild(dueDate);
     taskForm.appendChild(priority);
-    taskForm.appendChild(project);
+    // taskForm.appendChild(project);
     taskForm.appendChild(cancelButton);
     taskForm.appendChild(addTaskButton);
 }
@@ -90,13 +90,13 @@ function clearTaskForm() {
     const taskDescription = document.getElementById('description');
     const dueDate = document.getElementById('date');
     const priority = document.getElementById('priority');
-    const project = document.getElementById('project');
+    // const project = document.getElementById('project');
 
     taskName.value = '';
     taskDescription.value = '';
     dueDate.value = '';
     priority.value = '';
-    project.value = 'inbox';
+    // project.value = 'inbox';
 }
 
 function closeTaskForm() {
