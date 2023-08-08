@@ -1,3 +1,6 @@
+import { projectFactory, allProjects } from "./project";
+import { addSelectProjectOption } from "./taskForm";
+
 export function addProjectForm() {
     const content = document.getElementById('content');
     const projectForm = document.createElement('form');
@@ -6,21 +9,26 @@ export function addProjectForm() {
     const cancelButton = document.createElement('button');
     const addProjectButton = document.createElement('button');
 
+    projectForm.hidden = true;
     projectName.required = true;
+
+    cancelButton.type = 'button'; // close form and clear form
+    addProjectButton.type = 'button';
 
     projectNameLabel.for = 'project-name';
 
     projectForm.id = 'project-form';
     projectName.id = 'project-name';
-
-    cancelButton.type = 'button'; // close form and clear form
-    addProjectButton.type = 'submit'; // prevent default
     
     projectNameLabel.textContent = 'Project Name';
     cancelButton.textContent = 'Cancel';
     addProjectButton.textContent = 'Add project';
 
+    cancelButton.value = 'cancel';
+    addProjectButton.value = 'add';
+
     cancelButton.onclick = closeProjectForm;
+    addProjectButton.onclick = addProject;
 
     content.appendChild(projectForm);
     projectForm.appendChild(projectNameLabel);
@@ -54,4 +62,15 @@ export function addPlusProjectButton(element) {
     plusButton.onclick = openProjectForm;
 
     element.appendChild(plusButton);
+}
+
+function addProject() {
+    const projectName = document.getElementById('project-name');
+    const project = projectFactory(projectName.value, []);
+    allProjects.array.push(project);
+
+    addSelectProjectOption(projectName.value);
+
+    closeProjectForm();
+    console.log(allProjects.array);
 }

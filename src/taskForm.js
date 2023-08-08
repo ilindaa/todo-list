@@ -1,3 +1,6 @@
+import { todoFactory } from "./todo";
+import { allProjects } from "./project";
+
 // Add Task Form
 export function addTaskForm() {
     const content = document.getElementById('content');
@@ -6,35 +9,37 @@ export function addTaskForm() {
     const taskDescription = document.createElement('input');
     const dueDate = document.createElement('input');
     const priority = document.createElement('select');
-    // const project = document.createElement('select');
+    const project = document.createElement('select');
     const cancelButton = document.createElement('button');
     const addTaskButton = document.createElement('button');
 
+    taskForm.hidden = true;
     taskName.required = true;
 
     taskName.type = 'text';
     taskDescription.type = 'text';
     dueDate.type = 'date';
     cancelButton.type = 'button'; // close the form, reset fields
-    addTaskButton.type = 'submit'; // need to prevent default, if there isn't a task name - gray out the button
+    addTaskButton.type = 'button'; // need to prevent default, if there isn't a task name - gray out the button
 
     taskName.placeholder = 'Task name';
     taskDescription.placeholder = 'Description';
     
-    cancelButton.textContent = 'Cancel';
-    addTaskButton.textContent = 'Add task';
-
     taskForm.id = 'task-form';
     taskName.id = 'name';
     taskDescription.id = 'description';
     dueDate.id = 'date';
     priority.id = 'priority';
-    // project.id = 'project';
+    project.id = 'project';
+
+    cancelButton.textContent = 'Cancel';
+    addTaskButton.textContent = 'Add task';
 
     cancelButton.value = 'cancel';
-    addTaskButton.value = 'submit';
+    addTaskButton.value = 'add';
 
     cancelButton.onclick = closeTaskForm;
+    addTaskButton.onclick = addTask;
 
         // Priority Options
         const priorityPlaceholder = document.createElement('option');
@@ -63,26 +68,17 @@ export function addTaskForm() {
         priority.add(priority3);
         priority.add(priority4);
 
-        // Project Options
-        // Get them from the array that holds all projects
-        // const inbox = document.createElement('option');
-
-        // inbox.selected = true;
-
-        // inbox.text = 'Inbox';
-
-        // inbox.value = 'inbox';
-
-        // project.add(inbox);
-
     content.appendChild(taskForm);
     taskForm.appendChild(taskName);
     taskForm.appendChild(taskDescription);
     taskForm.appendChild(dueDate);
     taskForm.appendChild(priority);
-    // taskForm.appendChild(project);
+    taskForm.appendChild(project);
     taskForm.appendChild(cancelButton);
     taskForm.appendChild(addTaskButton);
+
+    // Project Options (we start off with Inbox only)
+    addSelectProjectOption('Inbox');
 }
 
 function clearTaskForm() {
@@ -90,13 +86,13 @@ function clearTaskForm() {
     const taskDescription = document.getElementById('description');
     const dueDate = document.getElementById('date');
     const priority = document.getElementById('priority');
-    // const project = document.getElementById('project');
+    const project = document.getElementById('project');
 
     taskName.value = '';
     taskDescription.value = '';
     dueDate.value = '';
     priority.value = '';
-    // project.value = 'inbox';
+    project.value = allProjects.array[0].name;
 }
 
 function closeTaskForm() {
@@ -119,4 +115,31 @@ export function addPlusTaskButton(element) {
     plusButton.onclick = openTaskForm;
 
     element.appendChild(plusButton);
+}
+
+export function addTask() {
+    const taskName = document.getElementById('name');
+    const taskDescription = document.getElementById('description');
+    const dueDate = document.getElementById('date');
+    const priority = document.getElementById('priority');
+    const project = document.getElementById('project');
+    const task = todoFactory(taskName.value, taskDescription.value, dueDate.value, priority.value, project.value);
+
+    for (let i = 0; i < allProjects.array.length; i++) {
+        if (project.value == allProjects.array[i].name) {
+            allProjects.array[i].todoArray.push(task);
+        }
+    }
+
+    closeTaskForm();
+    console.log(allProjects.array);
+}
+
+export function addSelectProjectOption(optionName) {
+    const project = document.getElementById('project');
+    const projectOption = document.createElement('option');
+
+    projectOption.text = optionName;
+    projectOption.value = optionName;
+    project.add(projectOption);
 }
