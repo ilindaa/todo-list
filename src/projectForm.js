@@ -1,6 +1,6 @@
 import { projectFactory, allProjects } from "./project";
 import { addSelectProjectOption } from "./taskForm";
-import { displayProject } from "./display";
+import { displayUserProjects } from "./display";
 
 export function addProjectForm() {
     const content = document.getElementById('content');
@@ -23,7 +23,7 @@ export function addProjectForm() {
     
     projectNameLabel.textContent = 'Project Name';
     cancelButton.textContent = 'Cancel';
-    addProjectButton.textContent = 'Add project';
+    addProjectButton.textContent = 'Add Project';
 
     cancelButton.value = 'cancel';
     addProjectButton.value = 'add';
@@ -59,7 +59,7 @@ export function addPlusProjectButton(element) {
     const plusButton = document.createElement('button');
     plusButton.type = 'button';
     plusButton.value = 'plus';
-    plusButton.textContent = '+ Project';
+    plusButton.textContent = '+ Add Project';
     plusButton.onclick = openProjectForm;
 
     element.appendChild(plusButton);
@@ -68,11 +68,11 @@ export function addPlusProjectButton(element) {
 function addProject() {
     const projectName = document.getElementById('project-name');
     const project = projectFactory(projectName.value, []);
-    allProjects.array.push(project);
+    allProjects.userArr.push(project);
 
     addSelectProjectOption(projectName.value);
 
     closeProjectForm();
-    console.log(allProjects.array);
-    displayProject();
+    console.log(allProjects.userArr);
+    displayUserProjects();
 }

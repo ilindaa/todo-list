@@ -6,8 +6,7 @@ export const projectFactory = (name, todoArray) => {
 
 // Module Pattern
 export const allProjects = (() => {
-    let array =  [ {name: 'Inbox', todoArray: []},
-    {name: 'Pog', todoArray: []},
-    {name: 'Test', todoArray: []} ];
-    return { array };
+    let defaultArr = [ {name: 'Inbox', todoArray: [] } ];
+    let userArr =  [ {name: 'Pog', todoArray: []}, {name: 'Test', todoArray: []} ];
+    return { defaultArr, userArr };
 })();

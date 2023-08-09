@@ -2,16 +2,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Calibri;
 }
 
+button {
+    cursor: pointer;
+}
+
+.default-area,
 .projects-area {
+    background-color: #ddd;
     width: 10rem;
+    height: auto;
 }
 
 .sidebar-project {
     display: flex;
     justify-content: space-between;
-    background-color: pink;
-    border: 1px solid black;
     cursor: pointer;
+}
+
+.sidebar-project:hover {
+    background-color: #ccc;
 }

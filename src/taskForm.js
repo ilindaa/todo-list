@@ -7,6 +7,7 @@ export function addTaskForm() {
     const taskForm = document.createElement('form');
     const taskName = document.createElement('input');
     const taskDescription = document.createElement('input');
+    const dueDateLabel = document.createElement('label');
     const dueDate = document.createElement('input');
     const priority = document.createElement('select');
     const project = document.createElement('select');
@@ -24,7 +25,10 @@ export function addTaskForm() {
 
     taskName.placeholder = 'Task name';
     taskDescription.placeholder = 'Description';
-    
+    dueDate.valueAsDate = new Date();
+
+    dueDateLabel.for = 'date';
+
     taskForm.id = 'task-form';
     taskName.id = 'name';
     taskDescription.id = 'description';
@@ -32,8 +36,9 @@ export function addTaskForm() {
     priority.id = 'priority';
     project.id = 'project';
 
+    dueDateLabel.textContent = 'Due Date';
     cancelButton.textContent = 'Cancel';
-    addTaskButton.textContent = 'Add task';
+    addTaskButton.textContent = 'Add Task';
 
     cancelButton.value = 'cancel';
     addTaskButton.value = 'add';
@@ -71,6 +76,7 @@ export function addTaskForm() {
     content.appendChild(taskForm);
     taskForm.appendChild(taskName);
     taskForm.appendChild(taskDescription);
+    taskForm.appendChild(dueDateLabel);
     taskForm.appendChild(dueDate);
     taskForm.appendChild(priority);
     taskForm.appendChild(project);
@@ -92,9 +98,9 @@ function clearTaskForm() {
 
     taskName.value = '';
     taskDescription.value = '';
-    dueDate.value = '';
+    dueDate.valueAsDate = new Date();
     priority.value = '';
-    project.value = allProjects.array[0].name;
+    project.value = allProjects.defaultArr[0].name;
 }
 
 function closeTaskForm() {
@@ -113,7 +119,7 @@ export function addPlusTaskButton(element) {
     const plusButton = document.createElement('button');
     plusButton.type = 'button';
     plusButton.value = 'plus';
-    plusButton.textContent = '+ Task';
+    plusButton.textContent = '+ Add Task';
     plusButton.onclick = openTaskForm;
 
     element.appendChild(plusButton);
@@ -127,14 +133,20 @@ export function addTask() {
     const project = document.getElementById('project');
     const task = todoFactory(taskName.value, taskDescription.value, dueDate.value, priority.value, project.value);
 
-    for (let i = 0; i < allProjects.array.length; i++) {
-        if (project.value == allProjects.array[i].name) {
-            allProjects.array[i].todoArray.push(task);
+    // If the user selected inbox, push the task into inbox else loop through the user's projects and push it into the respective one
+    if (project.value === allProjects.defaultArr[0].name) {
+        allProjects.defaultArr[0].todoArray.push(task);
+    } else {
+        for (let i = 0; i < allProjects.userArr.length; i++) {
+            if (project.value === allProjects.userArr[i].name) {
+                allProjects.userArr[i].todoArray.push(task);
+            }
         }
     }
 
     closeTaskForm();
-    console.log(allProjects.array);
+    console.log(allProjects.defaultArr)
+    console.log(allProjects.userArr);
 }
 
 export function addSelectProjectOption(optionName) {
@@ -150,5 +162,5 @@ export function addSelectProjectOption(optionName) {
 
 export function removeSelectProjectOption(projectIndex) {
     const project = document.getElementById('project');
-    project.remove(projectIndex);
+    project.remove(projectIndex+1);
 }
