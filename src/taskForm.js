@@ -79,6 +79,8 @@ export function addTaskForm() {
 
     // Project Options (we start off with Inbox only)
     addSelectProjectOption('Inbox');
+    addSelectProjectOption('Pog'); // TESTING
+    addSelectProjectOption('Test'); // TESTING
 }
 
 function clearTaskForm() {
@@ -141,5 +143,12 @@ export function addSelectProjectOption(optionName) {
 
     projectOption.text = optionName;
     projectOption.value = optionName;
+    projectOption.id = optionName; 
+
     project.add(projectOption);
+}
+
+export function removeSelectProjectOption(projectIndex) {
+    const project = document.getElementById('project');
+    project.remove(projectIndex);
 }

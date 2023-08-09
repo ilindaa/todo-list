@@ -1,5 +1,6 @@
 import { projectFactory, allProjects } from "./project";
 import { addSelectProjectOption } from "./taskForm";
+import { displayProject } from "./display";
 
 export function addProjectForm() {
     const content = document.getElementById('content');
@@ -73,4 +74,5 @@ function addProject() {
 
     closeProjectForm();
     console.log(allProjects.array);
+    displayProject();
 }

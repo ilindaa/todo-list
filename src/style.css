@@ -1,3 +1,17 @@
-h1 {
-    color: red;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.projects-area {
+    width: 10rem;
+}
+
+.sidebar-project {
+    display: flex;
+    justify-content: space-between;
+    background-color: pink;
+    border: 1px solid black;
+    cursor: pointer;
 }
