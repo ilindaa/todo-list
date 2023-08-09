@@ -6,20 +6,29 @@
 }
 
 button {
+    font-size: 1rem;
     cursor: pointer;
 }
 
 .default-area,
-.projects-area {
+.projects-area,
+.task-area,
+.sidebar-project {
     background-color: #ddd;
+}
+
+.default-area,
+.projects-area {
     width: 18rem;
     height: auto;
     padding: 1rem;
 }
 
 .sidebar-project {
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    border: none;
     border-radius: 0.5rem;
     padding: 0.5rem;
     cursor: pointer;
@@ -27,4 +36,22 @@ button {
 
 .sidebar-project:hover {
     background-color: #ccc;
+}
+
+.task-area {
+    padding: 1rem;
+}
+
+.sidebar-task {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.sidebar-task-left,
+.sidebar-task-right {
+    display: flex;
+    gap: 1rem;
 }
