@@ -11,10 +11,14 @@ export function addProjectForm() {
     const addProjectButton = document.createElement('button');
 
     projectForm.hidden = true;
+    projectForm.onsubmit = function(event) {
+        event.preventDefault();
+        addProject();
+    }
     projectName.required = true;
 
     cancelButton.type = 'button'; // close form and clear form
-    addProjectButton.type = 'button';
+    addProjectButton.type = 'submit';
 
     projectNameLabel.for = 'project-name';
 
@@ -26,10 +30,8 @@ export function addProjectForm() {
     addProjectButton.textContent = 'Add Project';
 
     cancelButton.value = 'cancel';
-    addProjectButton.value = 'add';
 
     cancelButton.onclick = closeProjectForm;
-    addProjectButton.onclick = addProject;
 
     content.appendChild(projectForm);
     projectForm.appendChild(projectNameLabel);

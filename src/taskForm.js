@@ -15,13 +15,17 @@ export function addTaskForm() {
     const addTaskButton = document.createElement('button');
 
     taskForm.hidden = true;
+    taskForm.onsubmit = function(event) {
+        event.preventDefault();
+        addTask();
+    };
     taskName.required = true;
 
     taskName.type = 'text';
     taskDescription.type = 'text';
     dueDate.type = 'date';
     cancelButton.type = 'button'; // close the form, reset fields
-    addTaskButton.type = 'button'; // need to prevent default, if there isn't a task name - gray out the button
+    addTaskButton.type = 'submit'; // need to prevent default, if there isn't a task name - gray out the button
 
     taskName.placeholder = 'Task name';
     taskDescription.placeholder = 'Description';
@@ -41,10 +45,8 @@ export function addTaskForm() {
     addTaskButton.textContent = 'Add Task';
 
     cancelButton.value = 'cancel';
-    addTaskButton.value = 'add';
 
     cancelButton.onclick = closeTaskForm;
-    addTaskButton.onclick = addTask;
 
         // Priority Options
         const priorityPlaceholder = document.createElement('option');

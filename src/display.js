@@ -36,20 +36,20 @@ export function displayUserProjects() {
         projectDiv.appendChild(projectName);
 
         const buttonsDiv = document.createElement('div');
-        const editIcon = document.createElement('button');
+        // const editIcon = document.createElement('button');
         const deleteIcon = document.createElement('button');
 
-        editIcon.type = 'button';
+        // editIcon.type = 'button';
         deleteIcon.type = 'button';
 
-        editIcon.textContent = '✍';
+        // editIcon.textContent = '✍';
         deleteIcon.textContent = '❌';
 
         // edit.onclick = 
         deleteIcon.onclick = removeProject;
 
         projectDiv.appendChild(buttonsDiv);
-        buttonsDiv.appendChild(editIcon);
+        // buttonsDiv.appendChild(editIcon);
         buttonsDiv.appendChild(deleteIcon);
 
         projectsArea.appendChild(projectDiv);

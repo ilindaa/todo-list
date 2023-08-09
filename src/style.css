@@ -12,13 +12,16 @@ button {
 .default-area,
 .projects-area {
     background-color: #ddd;
-    width: 10rem;
+    width: 18rem;
     height: auto;
+    padding: 1rem;
 }
 
 .sidebar-project {
     display: flex;
     justify-content: space-between;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
     cursor: pointer;
 }
 
