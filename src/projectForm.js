@@ -75,6 +75,5 @@ function addProject() {
     addSelectProjectOption(projectName.value);
 
     closeProjectForm();
-    console.log(allProjects.userArr);
     displayUserProjects();
 }

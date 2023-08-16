@@ -1,6 +1,6 @@
 import { todoFactory } from "./todo";
 import { allProjects } from "./project";
-import { displayDefaultTasks } from "./display";
+import { displayTasks } from "./display";
 
 // Add Task Form
 export function addTaskForm() {
@@ -148,10 +148,7 @@ export function addTask() {
     }
 
     closeTaskForm();
-    displayDefaultTasks();
-
-    console.log(allProjects.defaultArr)
-    console.log(allProjects.userArr);
+    displayTasks();
 }
 
 export function addSelectProjectOption(optionName) {
