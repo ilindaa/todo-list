@@ -13,6 +13,7 @@ export function displayDefaultProjects() {
         projectButton.classList.add('sidebar-project');
         projectButton.dataset.defaultProjectIndex = i;
         projectButton.onclick = displayProjectTitle;
+        projectButton.addEventListener('click', setActiveTab);
 
         projectName.textContent = allProjects.defaultArr[i].name;
 
@@ -34,43 +35,58 @@ export function displayUserProjects() {
         projectButton.classList.add('sidebar-project');
         projectButton.dataset.projectIndex = i;
         projectButton.onclick = displayProjectTitle;
+        projectButton.addEventListener('click', setActiveTab);
 
         projectName.textContent = allProjects.userArr[i].name;
 
         projectButton.appendChild(projectName);
 
         const buttonsDiv = document.createElement('div');
-        // const editIcon = document.createElement('button');
+        const editIcon = document.createElement('button');
         const deleteIcon = document.createElement('button');
 
-        // editIcon.type = 'button';
+        editIcon.type = 'button';
         deleteIcon.type = 'button';
 
-        // editIcon.textContent = '✍';
+        editIcon.textContent = '✍';
         deleteIcon.textContent = '❌';
 
-        // edit.onclick = 
+        editIcon.onclick = editProject;
         deleteIcon.onclick = removeProject;
 
         projectButton.appendChild(buttonsDiv);
-        // buttonsDiv.appendChild(editIcon);
+        buttonsDiv.appendChild(editIcon);
         buttonsDiv.appendChild(deleteIcon);
 
         projectsContent.appendChild(projectButton);
     }
 }
 
-// Only the user projects are removable
-function removeProject() {
+// Remove a project from the array, options, and projects-area; clear the task area and re-display projects-area
+function removeProject(event) {
+    // Stop propagation so only the inner element function is executed and not the button's function
+    event.stopPropagation();
     const projectIndex = parseInt(this.parentElement.parentElement.dataset.projectIndex);
-    const taskTitle = document.querySelector('.task-title');
-    taskTitle.innerHTML = '';
+    clearProjectTitleAndDisplayTask();
     allProjects.userArr.splice(projectIndex, 1);
     removeSelectProjectOption(projectIndex);
     displayUserProjects();
 }
 
+function clearProjectTitleAndDisplayTask() {
+    const taskTitle = document.querySelector('.task-title');
+    const taskContent = document.querySelector('.task-content');
+    taskTitle.innerHTML = '';
+    taskContent.innerHTML = '';
+    // console.log("Clear!");
+}
+
+function editProject(event) {
+    event.stopPropagation();
+}
+
 export function displayProjectTitle() {
+    // console.log("displaying project title");
     const defaultProjectIndex = parseInt(this.dataset.defaultProjectIndex);
     const projectIndex = parseInt(this.dataset.projectIndex);
     const taskTitle = document.querySelector('.task-title');
@@ -118,6 +134,7 @@ function getCurrentIndexAndArray() {
 }
 
 export function displayTasks() {
+    // console.log("displaying tasks");
     const taskContent = document.querySelector('.task-content');
     taskContent.innerHTML = '';
 
@@ -145,16 +162,16 @@ export function displayTasks() {
 
         todoDiv.dataset.taskIndex = i;
 
-        // const editIcon = document.createElement('button');
+        const editIcon = document.createElement('button');
         const deleteIcon = document.createElement('button');
 
-        // editIcon.type = 'button';
+        editIcon.type = 'button';
         deleteIcon.type = 'button';
 
-        // editIcon.textContent = '✍';
+        editIcon.textContent = '✍';
         deleteIcon.textContent = '❌';
 
-        // edit.onclick = 
+        editIcon.onclick = 
         deleteIcon.onclick = removeTask;
 
         taskContent.appendChild(todoDiv);
@@ -172,4 +189,12 @@ function removeTask() {
     array[currentProjectIndex].todoArray.splice(taskIndex, 1);
 
     displayTasks();
+}
+
+function setActiveTab() {
+    let prev = document.getElementsByClassName('active');
+    if (prev.length > 0) {
+        prev[0].className = prev[0].className.replace('active', '');
+    }
+    this.classList.add('active');
 }
