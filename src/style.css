@@ -56,8 +56,7 @@ button {
     padding: 0.5rem;
 }
 
-.sidebar-task-left,
-.sidebar-task-right {
+.sidebar-task-left {
     display: flex;
     gap: 1rem;
 }

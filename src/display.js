@@ -1,5 +1,6 @@
 import { allProjects } from "./project";
 import { removeSelectProjectOption } from "./taskForm";
+import { openEditProjectForm } from "./projectForm";
 
 export function displayDefaultProjects() {
     const defaultContent = document.querySelector('.default-content');
@@ -51,7 +52,7 @@ export function displayUserProjects() {
         editIcon.textContent = '✍';
         deleteIcon.textContent = '❌';
 
-        editIcon.onclick = editProject;
+        editIcon.onclick = openEditProjectForm;
         deleteIcon.onclick = removeProject;
 
         projectButton.appendChild(buttonsDiv);
@@ -73,16 +74,12 @@ function removeProject(event) {
     displayUserProjects();
 }
 
-function clearProjectTitleAndDisplayTask() {
+export function clearProjectTitleAndDisplayTask() {
     const taskTitle = document.querySelector('.task-title');
     const taskContent = document.querySelector('.task-content');
     taskTitle.innerHTML = '';
     taskContent.innerHTML = '';
     // console.log("Clear!");
-}
-
-function editProject(event) {
-    event.stopPropagation();
 }
 
 export function displayProjectTitle() {
@@ -171,7 +168,7 @@ export function displayTasks() {
         editIcon.textContent = '✍';
         deleteIcon.textContent = '❌';
 
-        editIcon.onclick = 
+        // editIcon.onclick =
         deleteIcon.onclick = removeTask;
 
         taskContent.appendChild(todoDiv);
@@ -179,6 +176,7 @@ export function displayTasks() {
         todoDiv.appendChild(todoDivRightDiv);
         todoDivLeftDiv.appendChild(title);
         todoDivLeftDiv.appendChild(dueDate);
+        todoDivRightDiv.appendChild(editIcon);
         todoDivRightDiv.appendChild(deleteIcon);
     }
 }

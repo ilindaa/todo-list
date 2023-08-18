@@ -1,6 +1,6 @@
 import { projectFactory, allProjects } from "./project";
 import { addSelectProjectOption } from "./taskForm";
-import { displayUserProjects } from "./display";
+import { displayUserProjects, clearProjectTitleAndDisplayTask } from "./display";
 
 export function addProjectForm() {
     const content = document.getElementById('content');
@@ -76,4 +76,63 @@ function addProject() {
 
     closeProjectForm();
     displayUserProjects();
+}
+
+// Editing project
+export function editProjectForm() {
+    // const projectIndex, taskIndex
+    const projectsArea = document.querySelector('.projects-area');
+    const projectForm = document.createElement('form');
+    const projectName = document.createElement('input');
+    const cancelButton = document.createElement('button');
+    const saveButton = document.createElement('button');
+
+    projectForm.hidden = true;
+    cancelButton.type = 'button';
+    saveButton.type = 'submit';
+
+    projectForm.id = 'edit-project-form';
+    projectName.id = 'edit-project-name';
+    saveButton.id = 'save-project-name';
+
+    cancelButton.textContent = 'Cancel';
+    saveButton.textContent = 'Save';
+
+    cancelButton.value = 'cancel';
+    cancelButton.onclick = closeEditProjectForm;
+
+    projectsArea.appendChild(projectForm);
+    projectForm.appendChild(projectName);
+    projectForm.appendChild(cancelButton);
+    projectForm.appendChild(saveButton);
+}
+
+function closeEditProjectForm() {
+    const projectForm = document.getElementById('edit-project-form');
+    projectForm.hidden = true;
+}
+
+export function openEditProjectForm(event) {
+    event.stopPropagation();
+    const projectForm = document.getElementById('edit-project-form');
+    const projectName = document.getElementById('edit-project-name');
+    const projectIndex = this.parentElement.parentElement.dataset.projectIndex;
+
+    projectName.value = allProjects.userArr[projectIndex].name;
+
+    projectForm.onsubmit = function(event) {
+        event.preventDefault();
+        saveProjectName(projectIndex);
+    }
+
+    projectForm.hidden = false;
+}
+
+function saveProjectName(projectIndex) {
+    const newProjectName = document.getElementById('edit-project-name');
+    allProjects.userArr[projectIndex].name = newProjectName.value;
+
+    closeEditProjectForm();
+    displayUserProjects();
+    clearProjectTitleAndDisplayTask();
 }
