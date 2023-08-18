@@ -1,6 +1,6 @@
 import { todoFactory } from "./todo";
 import { allProjects } from "./project";
-import { displayTasks } from "./display";
+import { displayTasks, getCurrentIndexAndArray } from "./display";
 
 // Add Task Form
 export function addTaskForm() {
@@ -165,4 +165,128 @@ export function addSelectProjectOption(optionName) {
 export function removeSelectProjectOption(projectIndex) {
     const project = document.getElementById('project');
     project.remove(projectIndex+1);
+}
+
+// Editing task form (user cannot change the 'project' the task is in yet - may add later)
+export function editTaskForm() {
+    const taskArea = document.querySelector('.task-area');
+    const taskForm = document.createElement('form');
+    const taskName = document.createElement('input');
+    const taskDescription = document.createElement('input');
+    const dueDateLabel = document.createElement('label');
+    const dueDate = document.createElement('input');
+    const priority = document.createElement('select');
+    const cancelButton = document.createElement('button');
+    const saveButton = document.createElement('button');
+
+    taskForm.hidden = true;
+    taskName.required = true;
+
+    taskName.type = 'text';
+    taskDescription.type = 'text';
+    dueDate.type = 'date';
+    cancelButton.type = 'button';
+    saveButton.type = 'submit';
+
+    taskName.placeholder = 'Task name';
+    taskDescription.placeholder = 'Description';
+
+    dueDateLabel.for = 'date';
+
+    taskForm.id = 'edit-task-form';
+    taskName.id = 'edit-name';
+    taskDescription.id = 'edit-description';
+    dueDate.id = 'edit-date';
+    priority.id = 'edit-priority';
+
+    dueDateLabel.textContent = 'Due Date';
+    cancelButton.textContent = 'Cancel';
+    saveButton.textContent = 'Save';
+
+    cancelButton.value = 'cancel';
+
+    cancelButton.onclick = closeEditTaskForm;
+
+        // Priority Options
+        const priorityPlaceholder = document.createElement('option');
+        const priority1 = document.createElement('option');
+        const priority2 = document.createElement('option');
+        const priority3 = document.createElement('option');
+        const priority4 = document.createElement('option');
+
+        priorityPlaceholder.hidden = true;
+
+        priorityPlaceholder.text = 'Priority';
+        priority1.text = 'Priority 1';
+        priority2.text = 'Priority 2';
+        priority3.text = 'Priority 3';
+        priority4.text = 'Priority 4';
+
+        priorityPlaceholder.value = '';
+        priority1.value = 'p1';
+        priority2.value = 'p2';
+        priority3.value = 'p3';
+        priority4.value = 'p4';
+
+        priority.add(priorityPlaceholder);
+        priority.add(priority1);
+        priority.add(priority2);
+        priority.add(priority3);
+        priority.add(priority4);
+
+    taskArea.appendChild(taskForm);
+    taskForm.appendChild(taskName);
+    taskForm.appendChild(taskDescription);
+    taskForm.appendChild(dueDateLabel);
+    taskForm.appendChild(dueDate);
+    taskForm.appendChild(priority);
+    taskForm.appendChild(cancelButton);
+    taskForm.appendChild(saveButton);
+}
+
+export function closeEditTaskForm() {
+    const taskForm = document.getElementById('edit-task-form');
+    taskForm.hidden = true;
+}
+
+// Opens the edit task form (to allow viewing or editing)
+export function openEditTaskForm() {
+    const taskForm = document.getElementById('edit-task-form');
+    const taskName = document.getElementById('edit-name');
+    const taskDescription = document.getElementById('edit-description');
+    const dueDate = document.getElementById('edit-date');
+    const priority = document.getElementById('edit-priority');
+
+    let { currentProjectIndex, array } = getCurrentIndexAndArray();
+
+    const taskIndex = this.parentElement.parentElement.dataset.taskIndex;
+    const task = array[currentProjectIndex].todoArray[taskIndex];
+
+    taskName.value = task.title;
+    taskDescription.value = task.description;
+    dueDate.value = task.dueDate;
+    priority.value = task.priority;
+
+    taskForm.onsubmit = function(event) {
+        event.preventDefault();
+        saveTaskInfo(task);
+    };
+
+    taskForm.hidden = false;
+}
+
+// Saves the new task info into the array, closes the edit task form, and then displays the tasks
+function saveTaskInfo(task) {
+    const newTaskName = document.getElementById('edit-name');
+    const newTaskDescription = document.getElementById('edit-description');
+    const newDueDate = document.getElementById('edit-date');
+    const newPriority = document.getElementById('edit-priority');
+
+    task.title = newTaskName.value;
+    task.description = newTaskDescription.value;
+    task.dueDate = newDueDate.value;
+    task.priority = newPriority.value;
+
+    closeEditTaskForm();
+    displayTasks();
 }

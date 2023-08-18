@@ -1,5 +1,5 @@
 import './style.css';
-import { addTaskForm, addPlusTaskButton } from './taskForm';
+import { addTaskForm, addPlusTaskButton, editTaskForm } from './taskForm';
 import { addProjectForm, addPlusProjectButton, editProjectForm } from './projectForm';
 import { displayDefaultProjects, displayUserProjects } from './display'; 
 
@@ -12,3 +12,4 @@ displayDefaultProjects();
 displayUserProjects();
 
 editProjectForm();
+editTaskForm();

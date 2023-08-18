@@ -1,6 +1,7 @@
 import { allProjects } from "./project";
 import { removeSelectProjectOption } from "./taskForm";
-import { openEditProjectForm } from "./projectForm";
+import { openEditProjectForm, closeEditProjectForm } from "./projectForm";
+import { openEditTaskForm, closeEditTaskForm } from "./taskForm";
 
 export function displayDefaultProjects() {
     const defaultContent = document.querySelector('.default-content');
@@ -72,6 +73,7 @@ function removeProject(event) {
     allProjects.userArr.splice(projectIndex, 1);
     removeSelectProjectOption(projectIndex);
     displayUserProjects();
+    closeEditProjectForm();
 }
 
 export function clearProjectTitleAndDisplayTask() {
@@ -79,11 +81,9 @@ export function clearProjectTitleAndDisplayTask() {
     const taskContent = document.querySelector('.task-content');
     taskTitle.innerHTML = '';
     taskContent.innerHTML = '';
-    // console.log("Clear!");
 }
 
 export function displayProjectTitle() {
-    // console.log("displaying project title");
     const defaultProjectIndex = parseInt(this.dataset.defaultProjectIndex);
     const projectIndex = parseInt(this.dataset.projectIndex);
     const taskTitle = document.querySelector('.task-title');
@@ -110,7 +110,7 @@ export function displayProjectTitle() {
 }
 
 // Gets the index of which project it is and if array (default or user)
-function getCurrentIndexAndArray() {
+export function getCurrentIndexAndArray() {
     const header = document.querySelector('.task-header');
     const defaultProjectIndex = parseInt(header.dataset.defaultProjectIndex);
     const projectIndex = parseInt(header.dataset.projectIndex);
@@ -131,7 +131,7 @@ function getCurrentIndexAndArray() {
 }
 
 export function displayTasks() {
-    // console.log("displaying tasks");
+    closeEditTaskForm();
     const taskContent = document.querySelector('.task-content');
     taskContent.innerHTML = '';
 
@@ -149,6 +149,16 @@ export function displayTasks() {
         todoDiv.classList.add('sidebar-task');
         todoDivLeftDiv.classList.add('sidebar-task-left');
         todoDivRightDiv.classList.add('sidebar-task-right');
+
+        if (todo.priority === 'p1') {
+            todoDiv.classList.add('priority-one');
+        } else if (todo.priority === 'p2') {
+            todoDiv.classList.add('priority-two');
+        } else if (todo.priority === 'p3') {
+            todoDiv.classList.add('priority-three')
+        } else if (todo.priority === 'p4') {
+            todoDiv.classList.add('priority-four');
+        }
 
         title.textContent = todo.title;
         if (todo.dueDate === '') {
@@ -168,7 +178,7 @@ export function displayTasks() {
         editIcon.textContent = '✍';
         deleteIcon.textContent = '❌';
 
-        // editIcon.onclick =
+        editIcon.onclick = openEditTaskForm;
         deleteIcon.onclick = removeTask;
 
         taskContent.appendChild(todoDiv);
@@ -187,6 +197,7 @@ function removeTask() {
     array[currentProjectIndex].todoArray.splice(taskIndex, 1);
 
     displayTasks();
+    closeEditTaskForm();
 }
 
 function setActiveTab() {
@@ -195,4 +206,5 @@ function setActiveTab() {
         prev[0].className = prev[0].className.replace('active', '');
     }
     this.classList.add('active');
+    closeEditProjectForm();
 }

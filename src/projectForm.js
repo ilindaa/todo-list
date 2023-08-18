@@ -78,9 +78,8 @@ function addProject() {
     displayUserProjects();
 }
 
-// Editing project
+// Editing project form
 export function editProjectForm() {
-    // const projectIndex, taskIndex
     const projectsArea = document.querySelector('.projects-area');
     const projectForm = document.createElement('form');
     const projectName = document.createElement('input');
@@ -107,30 +106,35 @@ export function editProjectForm() {
     projectForm.appendChild(saveButton);
 }
 
-function closeEditProjectForm() {
+export function closeEditProjectForm() {
     const projectForm = document.getElementById('edit-project-form');
     projectForm.hidden = true;
 }
 
+// Opens the edit project form (to allow viewing or editing)
 export function openEditProjectForm(event) {
+    // Stop propagation so only the inner element function is executed and not the button's function
     event.stopPropagation();
     const projectForm = document.getElementById('edit-project-form');
     const projectName = document.getElementById('edit-project-name');
     const projectIndex = this.parentElement.parentElement.dataset.projectIndex;
 
-    projectName.value = allProjects.userArr[projectIndex].name;
+    const project = allProjects.userArr[projectIndex];
+
+    projectName.value = project.name;
 
     projectForm.onsubmit = function(event) {
         event.preventDefault();
-        saveProjectName(projectIndex);
+        saveProjectName(project);
     }
 
     projectForm.hidden = false;
 }
 
-function saveProjectName(projectIndex) {
+// Saves the new project name into the array
+function saveProjectName(project) {
     const newProjectName = document.getElementById('edit-project-name');
-    allProjects.userArr[projectIndex].name = newProjectName.value;
+    project.name = newProjectName.value;
 
     closeEditProjectForm();
     displayUserProjects();
