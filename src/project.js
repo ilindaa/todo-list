@@ -11,6 +11,6 @@ export const allProjects = (() => {
     {title: 'Test5', description: 'D3', dueDate: '2023-08-18', priority: 'p3', project: 'Inbox'},
     ] }, ];
     let userArr =  [ {name: 'Pog', todoArray: [ {title: 'Test3', description: 'D4', dueDate: '2023-08-17', priority: 'p4', project: 'Pog'} ]},
-    {name: 'Test', todoArray: [ {title: 'Test4', description: 'D5', dueDate: '2023-08-17', priority: '', project: 'Test'} ]} ];
+    {name: 'Test', todoArray: [ {title: 'Test4', description: 'D5', dueDate: '2023-08-17', priority: 'p4', project: 'Test'} ]} ];
     return { defaultArr, userArr };
 })();

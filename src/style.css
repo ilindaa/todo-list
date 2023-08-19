@@ -9,7 +9,7 @@
     --p1-color: #d1453b;
     --p2-color: #eb8909;
     --p3-color: #246fe0;
-    --p4-color: #666666;
+    --p4-color: lightgray;
 }
 
 button {
@@ -74,17 +74,17 @@ button {
 
 /* Priority */
 .priority-one {
-    background-color: var(--p1-color);
+    border-left: 1rem solid var(--p1-color);
 }
 
 .priority-two {
-    background-color: var(--p2-color);
+    border-left: 1rem solid var(--p2-color);
 }
 
 .priority-three {
-    background-color: var(--p3-color);
+    border-left: 1rem solid var(--p3-color);
 }
 
 .priority-four {
-    background-color: var(--p4-color);
+    border-left: 1rem solid var(--p4-color);
 }

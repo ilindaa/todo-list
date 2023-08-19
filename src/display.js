@@ -162,7 +162,7 @@ export function displayTasks() {
 
         title.textContent = todo.title;
         if (todo.dueDate === '') {
-            dueDate.textContent = 'No date';
+            dueDate.textContent = 'No Date';
         } else {
             dueDate.textContent = todo.dueDate;
         }

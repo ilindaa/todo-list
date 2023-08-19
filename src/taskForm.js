@@ -21,6 +21,7 @@ export function addTaskForm() {
         addTask();
     };
     taskName.required = true;
+    priority.required = true;
 
     taskName.type = 'text';
     taskDescription.type = 'text';
@@ -188,6 +189,7 @@ export function editTaskForm() {
 
     taskForm.hidden = true;
     taskName.required = true;
+    priority.required = true;
 
     taskName.type = 'text';
     taskDescription.type = 'text';
