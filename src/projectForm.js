@@ -1,5 +1,5 @@
 import { projectFactory, allProjects } from "./project";
-import { addSelectProjectOption } from "./taskForm";
+import { addSelectProjectOption, editSelectProjectOption, removeSelectProjectOption } from "./taskForm";
 import { displayUserProjects, clearProjectTitleAndDisplayTask } from "./display";
 
 export function addProjectForm() {
@@ -87,6 +87,7 @@ export function editProjectForm() {
     const saveButton = document.createElement('button');
 
     projectForm.hidden = true;
+    projectName.required = true;
     cancelButton.type = 'button';
     saveButton.type = 'submit';
 
@@ -125,18 +126,19 @@ export function openEditProjectForm(event) {
 
     projectForm.onsubmit = function(event) {
         event.preventDefault();
-        saveProjectName(project);
+        saveProjectName(project, projectIndex);
     }
 
     projectForm.hidden = false;
 }
 
-// Saves the new project name into the array
-function saveProjectName(project) {
+// Saves the new project name into the array, edit the select project option, display projects again and clear task area
+function saveProjectName(project, projectIndex) {
     const newProjectName = document.getElementById('edit-project-name');
     project.name = newProjectName.value;
 
     closeEditProjectForm();
     displayUserProjects();
     clearProjectTitleAndDisplayTask();
+    editSelectProjectOption(project, parseInt(projectIndex));
 }

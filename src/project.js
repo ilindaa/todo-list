@@ -6,10 +6,11 @@ export const projectFactory = (name, todoArray) => {
 
 // Module Pattern
 export const allProjects = (() => {
-    let defaultArr = [ {name: 'Inbox', todoArray: [ {title: 'Test1', description: '', dueDate: '2023-08-06', priority: '', project: 'Inbox'}, 
-    {title: 'Test2', description: '', dueDate: '', priority: '', project: 'Inbox'},
+    let defaultArr = [ {name: 'Inbox', todoArray: [ {title: 'Test1', description: 'D1', dueDate: '2023-08-06', priority: 'p1', project: 'Inbox'}, 
+    {title: 'Test2', description: 'D2', dueDate: '', priority: 'p2', project: 'Inbox'},
+    {title: 'Test5', description: 'D3', dueDate: '2023-08-18', priority: 'p3', project: 'Inbox'},
     ] }, ];
-    let userArr =  [ {name: 'Pog', todoArray: [ {title: 'Test3', description: '', dueDate: '2023-08-17', priority: '', project: 'Pog'} ]},
-    {name: 'Test', todoArray: [ {title: 'Test4', description: '', dueDate: '2023-08-17', priority: '', project: 'Test'} ]} ];
+    let userArr =  [ {name: 'Pog', todoArray: [ {title: 'Test3', description: 'D4', dueDate: '2023-08-17', priority: 'p4', project: 'Pog'} ]},
+    {name: 'Test', todoArray: [ {title: 'Test4', description: 'D5', dueDate: '2023-08-17', priority: '', project: 'Test'} ]} ];
     return { defaultArr, userArr };
 })();

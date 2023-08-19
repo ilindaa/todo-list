@@ -167,6 +167,13 @@ export function removeSelectProjectOption(projectIndex) {
     project.remove(projectIndex+1);
 }
 
+export function editSelectProjectOption(project, projectIndex) {
+    const projectSelectList = document.getElementById('project');
+    projectSelectList.options[projectIndex+1].value = project.name;
+    projectSelectList.options[projectIndex+1].id = project.name;
+    projectSelectList.options[projectIndex+1].textContent = project.name;
+}
+
 // Editing task form (user cannot change the 'project' the task is in yet - may add later)
 export function editTaskForm() {
     const taskArea = document.querySelector('.task-area');
