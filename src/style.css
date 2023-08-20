@@ -9,67 +9,95 @@
     --p1-color: #d1453b;
     --p2-color: #eb8909;
     --p3-color: #246fe0;
-    --p4-color: lightgray;
+    --p4-color: #666;
+    --border-corners: 0.3rem;
+}
+
+body,
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.left-container,
+.sidebar-project {
+    background-color: #fafafa;
+    width: 19rem;
+}
+
+.right-container {
+    background-color: #ffffff;
+}
+
+button,
+.sidebar-project,
+.sidebar-task {
+    border-radius: var(--border-corners);
 }
 
 button {
+    background-color: gray;
     font-size: 1rem;
     cursor: pointer;
+    outline: none;
+    border: none;
+    padding: 0.3rem;
 }
 
-.default-area,
-.projects-area,
-.task-area,
-.sidebar-project {
-    background-color: #ddd;
-}
-
-.default-area,
-.projects-area {
-    width: 18rem;
-    height: auto;
+/* Projects */
+.all-projects {
     padding: 1rem;
+}
+
+.projects-title {
+    padding: 0rem 0.5rem;
 }
 
 .sidebar-project {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border: none;
-    border-radius: 0.5rem;
     padding: 0.5rem;
     cursor: pointer;
 }
 
-.sidebar-project:hover {
-    background-color: #ccc;
+.sidebar-project:hover,
+.active {
+    background-color: #eee;
 }
 
-.task-area {
-    padding: 1rem;
-}
-
+.all-projects,
+.task-area,
 .task-content {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
+/* Tasks */
+.task-area {
+    padding: 2rem 8rem;
+}
+
 .sidebar-task {
     display: flex;
     justify-content: space-between;
+    align-items: center; 
     background-color: white;
-    border-radius: 0.5rem;
     padding: 0.5rem;
 }
 
 .sidebar-task-left {
     display: flex;
     gap: 1rem;
-}
-
-.active {
-    filter: brightness(0.9);
 }
 
 /* Priority */

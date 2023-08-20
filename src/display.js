@@ -87,7 +87,7 @@ export function displayProjectTitle() {
     const defaultProjectIndex = parseInt(this.dataset.defaultProjectIndex);
     const projectIndex = parseInt(this.dataset.projectIndex);
     const taskTitle = document.querySelector('.task-title');
-    const header = document.createElement('h1');
+    const header = document.createElement('h2');
 
     taskTitle.innerHTML = '';
     header.classList.add('task-header');
