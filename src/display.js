@@ -40,12 +40,14 @@ export function displayUserProjects() {
         projectButton.addEventListener('click', setActiveTab);
 
         projectName.textContent = allProjects.userArr[i].name;
-
+        
         projectButton.appendChild(projectName);
 
         const buttonsDiv = document.createElement('div');
         const editIcon = document.createElement('button');
         const deleteIcon = document.createElement('button');
+
+        buttonsDiv.classList.add('flex-buttons');
 
         editIcon.type = 'button';
         deleteIcon.type = 'button';
