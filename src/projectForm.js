@@ -1,10 +1,12 @@
 import { projectFactory, allProjects } from "./project";
 import { addSelectProjectOption, editSelectProjectOption, removeSelectProjectOption } from "./taskForm";
 import { displayUserProjects, clearProjectTitleAndDisplayTask } from "./display";
+import plusSVGIcon from "./Icons/plus-thick.svg";
 
 export function addProjectForm() {
     const content = document.getElementById('content');
     const projectForm = document.createElement('form');
+    const header = document.createElement('h2');
     const projectNameLabel = document.createElement('label');
     const projectName = document.createElement('input');
     const cancelButton = document.createElement('button');
@@ -17,23 +19,26 @@ export function addProjectForm() {
     }
     projectName.required = true;
 
+    projectName.type = 'text';
     cancelButton.type = 'button'; // close form and clear form
     addProjectButton.type = 'submit';
 
-    projectNameLabel.for = 'project-name';
+    projectNameLabel.htmlFor = 'project-name';
 
     projectForm.id = 'project-form';
     projectName.id = 'project-name';
     
+    header.textContent = 'Add Project';
     projectNameLabel.textContent = 'Project Name';
     cancelButton.textContent = 'Cancel';
-    addProjectButton.textContent = 'Add Project';
+    addProjectButton.textContent = 'Add';
 
     cancelButton.value = 'cancel';
 
     cancelButton.onclick = closeProjectForm;
 
     content.appendChild(projectForm);
+    projectForm.appendChild(header);
     projectForm.appendChild(projectNameLabel);
     projectForm.appendChild(projectName);
     projectForm.appendChild(cancelButton);
@@ -61,7 +66,18 @@ export function addPlusProjectButton(element) {
     const plusButton = document.createElement('button');
     plusButton.type = 'button';
     plusButton.value = 'plus';
-    plusButton.textContent = '+ Add Project';
+
+    const pIcon = new Image(16, 16);
+    const buttonText = document.createElement('div');
+
+    buttonText.textContent = 'Add Project';
+
+    pIcon.classList.add('white-svg-icon');
+    pIcon.src = plusSVGIcon;
+
+    plusButton.appendChild(pIcon);
+    plusButton.appendChild(buttonText);
+    
     plusButton.onclick = openProjectForm;
 
     element.appendChild(plusButton);
@@ -82,19 +98,27 @@ function addProject() {
 export function editProjectForm() {
     const projectsArea = document.querySelector('.projects-area');
     const projectForm = document.createElement('form');
+    const header = document.createElement('h2');
+    const projectNameLabel = document.createElement('label');
     const projectName = document.createElement('input');
     const cancelButton = document.createElement('button');
     const saveButton = document.createElement('button');
 
-    projectForm.hidden = true;
-    projectName.required = true;
+    projectName.type = 'text';
     cancelButton.type = 'button';
     saveButton.type = 'submit';
+
+    projectNameLabel.htmlFor = 'edit-project-name';
 
     projectForm.id = 'edit-project-form';
     projectName.id = 'edit-project-name';
     saveButton.id = 'save-project-name';
 
+    projectForm.hidden = true;
+    projectName.required = true;
+
+    header.textContent = 'Edit Project';
+    projectNameLabel.textContent = 'Project Name';
     cancelButton.textContent = 'Cancel';
     saveButton.textContent = 'Save';
 
@@ -102,6 +126,8 @@ export function editProjectForm() {
     cancelButton.onclick = closeEditProjectForm;
 
     projectsArea.appendChild(projectForm);
+    projectForm.appendChild(header);
+    projectForm.appendChild(projectNameLabel);
     projectForm.appendChild(projectName);
     projectForm.appendChild(cancelButton);
     projectForm.appendChild(saveButton);

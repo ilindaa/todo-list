@@ -13,3 +13,11 @@ displayUserProjects();
 
 editProjectForm();
 editTaskForm();
+
+// function selectAndDisplayInbox() {
+//     const inbox = document.querySelector('[data-default-project-index="0"]');
+//     inbox.classList.add('active');
+//     displayProjectTitle();
+// }
+
+// selectAndDisplayInbox();

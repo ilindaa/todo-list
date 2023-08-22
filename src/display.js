@@ -2,13 +2,16 @@ import { allProjects } from "./project";
 import { removeSelectProjectOption } from "./taskForm";
 import { openEditProjectForm, closeEditProjectForm } from "./projectForm";
 import { openEditTaskForm, closeEditTaskForm } from "./taskForm";
+import editSVGIcon from "./Icons/square-edit-outline.svg";
+import closeSVGIcon from "./Icons/trash-can-outline.svg";
+import inboxSVGIcon from "./Icons/inbox-svgrepo-com.svg";
 
 export function displayDefaultProjects() {
     const defaultContent = document.querySelector('.default-content');
 
     for (let i = 0; i < allProjects.defaultArr.length; i++) {
         const projectButton = document.createElement('button');
-        const projectName = document.createElement('div');
+        const projectNameDiv = document.createElement('div');
 
         projectButton.type = 'button';
         // using the sidebar-project class for now
@@ -17,9 +20,20 @@ export function displayDefaultProjects() {
         projectButton.onclick = displayProjectTitle;
         projectButton.addEventListener('click', setActiveTab);
 
-        projectName.textContent = allProjects.defaultArr[i].name;
+        projectButton.appendChild(projectNameDiv);
+        projectNameDiv.classList.add('project-name');
 
-        projectButton.appendChild(projectName);
+        if (i === 0) {
+            const iIcon = new Image(25, 25);
+            iIcon.classList.add('gray-svg-icon');
+            iIcon.src = inboxSVGIcon;
+            projectNameDiv.appendChild(iIcon);
+        }
+
+        const buttonText = document.createElement('div');
+        buttonText.textContent = allProjects.defaultArr[i].name;
+        projectNameDiv.appendChild(buttonText);
+
         defaultContent.appendChild(projectButton);
     }
 }
@@ -52,8 +66,17 @@ export function displayUserProjects() {
         editIcon.type = 'button';
         deleteIcon.type = 'button';
 
-        editIcon.textContent = '✍';
-        deleteIcon.textContent = '❌';
+        const eIcon = new Image(25, 25);
+        const dIcon = new Image(25, 25);
+
+        eIcon.classList.add('gray-svg-icon');
+        dIcon.classList.add('gray-svg-icon');
+
+        eIcon.src = editSVGIcon;
+        dIcon.src = closeSVGIcon;
+
+        editIcon.appendChild(eIcon);
+        deleteIcon.appendChild(dIcon);
 
         editIcon.onclick = openEditProjectForm;
         deleteIcon.onclick = removeProject;
@@ -177,8 +200,17 @@ export function displayTasks() {
         editIcon.type = 'button';
         deleteIcon.type = 'button';
 
-        editIcon.textContent = '✍';
-        deleteIcon.textContent = '❌';
+        const eIcon = new Image(25, 25);
+        const dIcon = new Image(25, 25);
+
+        eIcon.classList.add('gray-svg-icon');
+        dIcon.classList.add('gray-svg-icon');
+
+        eIcon.src = editSVGIcon;
+        dIcon.src = closeSVGIcon;
+
+        editIcon.appendChild(eIcon);
+        deleteIcon.appendChild(dIcon);
 
         editIcon.onclick = openEditTaskForm;
         deleteIcon.onclick = removeTask;

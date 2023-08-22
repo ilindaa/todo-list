@@ -1,16 +1,19 @@
 import { todoFactory } from "./todo";
 import { allProjects } from "./project";
 import { displayTasks, getCurrentIndexAndArray } from "./display";
+import plusSVGIcon from "./Icons/plus-thick.svg";
 
 // Add Task Form
 export function addTaskForm() {
     const content = document.getElementById('content');
     const taskForm = document.createElement('form');
+    const header = document.createElement('h2');
     const taskName = document.createElement('input');
     const taskDescription = document.createElement('input');
     const dueDateLabel = document.createElement('label');
     const dueDate = document.createElement('input');
     const priority = document.createElement('select');
+    const projectLabel = document.createElement('label');
     const project = document.createElement('select');
     const cancelButton = document.createElement('button');
     const addTaskButton = document.createElement('button');
@@ -29,11 +32,12 @@ export function addTaskForm() {
     cancelButton.type = 'button'; // close the form, reset fields
     addTaskButton.type = 'submit'; // need to prevent default, if there isn't a task name - gray out the button
 
-    taskName.placeholder = 'Task name';
+    taskName.placeholder = 'Task Name';
     taskDescription.placeholder = 'Description';
     dueDate.valueAsDate = new Date();
 
-    dueDateLabel.for = 'date';
+    dueDateLabel.htmlFor = 'date';
+    projectLabel.htmlFor = 'project';
 
     taskForm.id = 'task-form';
     taskName.id = 'name';
@@ -42,9 +46,11 @@ export function addTaskForm() {
     priority.id = 'priority';
     project.id = 'project';
 
+    header.textContent = 'Add Task';
     dueDateLabel.textContent = 'Due Date';
+    projectLabel.textContent = 'Select Project';
     cancelButton.textContent = 'Cancel';
-    addTaskButton.textContent = 'Add Task';
+    addTaskButton.textContent = 'Add';
 
     cancelButton.value = 'cancel';
 
@@ -78,11 +84,13 @@ export function addTaskForm() {
         priority.add(priority4);
 
     content.appendChild(taskForm);
+    taskForm.appendChild(header);
     taskForm.appendChild(taskName);
     taskForm.appendChild(taskDescription);
     taskForm.appendChild(dueDateLabel);
     taskForm.appendChild(dueDate);
     taskForm.appendChild(priority);
+    taskForm.appendChild(projectLabel);
     taskForm.appendChild(project);
     taskForm.appendChild(cancelButton);
     taskForm.appendChild(addTaskButton);
@@ -123,7 +131,18 @@ export function addPlusTaskButton(element) {
     const plusButton = document.createElement('button');
     plusButton.type = 'button';
     plusButton.value = 'plus';
-    plusButton.textContent = '+ Add Task';
+
+    const pIcon = new Image(16, 16);
+    const buttonText = document.createElement('div');
+
+    buttonText.textContent = 'Add Task';
+
+    pIcon.classList.add('white-svg-icon');
+    pIcon.src = plusSVGIcon;
+
+    plusButton.appendChild(pIcon);
+    plusButton.appendChild(buttonText);
+
     plusButton.onclick = openTaskForm;
 
     element.appendChild(plusButton);
@@ -179,6 +198,7 @@ export function editSelectProjectOption(project, projectIndex) {
 export function editTaskForm() {
     const taskArea = document.querySelector('.task-area');
     const taskForm = document.createElement('form');
+    const header = document.createElement('h2');
     const taskName = document.createElement('input');
     const taskDescription = document.createElement('input');
     const dueDateLabel = document.createElement('label');
@@ -200,7 +220,7 @@ export function editTaskForm() {
     taskName.placeholder = 'Task name';
     taskDescription.placeholder = 'Description';
 
-    dueDateLabel.for = 'date';
+    dueDateLabel.htmlFor = 'edit-date';
 
     taskForm.id = 'edit-task-form';
     taskName.id = 'edit-name';
@@ -208,6 +228,7 @@ export function editTaskForm() {
     dueDate.id = 'edit-date';
     priority.id = 'edit-priority';
 
+    header.textContent = 'Edit Task';
     dueDateLabel.textContent = 'Due Date';
     cancelButton.textContent = 'Cancel';
     saveButton.textContent = 'Save';
@@ -244,6 +265,7 @@ export function editTaskForm() {
         priority.add(priority4);
 
     taskArea.appendChild(taskForm);
+    taskForm.appendChild(header);
     taskForm.appendChild(taskName);
     taskForm.appendChild(taskDescription);
     taskForm.appendChild(dueDateLabel);
