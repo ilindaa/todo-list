@@ -1,7 +1,6 @@
 import { allProjects } from "./project";
-import { removeSelectProjectOption } from "./taskForm";
 import { openEditProjectForm, closeEditProjectForm } from "./projectForm";
-import { openEditTaskForm, closeEditTaskForm } from "./taskForm";
+import { openEditTaskForm, closeEditTaskForm, removeSelectProjectOption } from "./taskForm";
 import editSVGIcon from "./Icons/square-edit-outline.svg";
 import closeSVGIcon from "./Icons/trash-can-outline.svg";
 import inboxSVGIcon from "./Icons/inbox-svgrepo-com.svg";
@@ -109,8 +108,17 @@ export function clearProjectTitleAndDisplayTask() {
 }
 
 export function displayProjectTitle() {
-    const defaultProjectIndex = parseInt(this.dataset.defaultProjectIndex);
-    const projectIndex = parseInt(this.dataset.projectIndex);
+    let defaultProjectIndex;
+    let projectIndex;
+
+    // Set the defaultProjectIndex to 0 (Inbox) or the project that was clicked 
+    if (this !== undefined) {
+        defaultProjectIndex = parseInt(this.dataset.defaultProjectIndex);
+        projectIndex = parseInt(this.dataset.projectIndex);
+    } else {
+        defaultProjectIndex = 0; 
+    }
+
     const taskTitle = document.querySelector('.task-title');
     const header = document.createElement('h2');
 
@@ -241,4 +249,14 @@ function setActiveTab() {
     }
     this.classList.add('active');
     closeEditProjectForm();
+}
+
+export function displayFormOverlayBg() {
+    const formOverlay = document.querySelector('.form-overlay-bg');
+    formOverlay.style.display = 'block';
+}
+
+export function hideFormOverlayBg() {
+    const formOverlay = document.querySelector('.form-overlay-bg');
+    formOverlay.style.display = 'none';
 }

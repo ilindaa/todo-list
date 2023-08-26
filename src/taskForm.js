@@ -1,11 +1,14 @@
 import { todoFactory } from "./todo";
 import { allProjects } from "./project";
-import { displayTasks, getCurrentIndexAndArray } from "./display";
+import { displayTasks, getCurrentIndexAndArray, displayFormOverlayBg, hideFormOverlayBg } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
 
 // Add Task Form
 export function addTaskForm() {
     const content = document.getElementById('content');
+    const formAlign = document.createElement('div');
+    formAlign.classList.add('form-align');
+    content.appendChild(formAlign);
     const taskForm = document.createElement('form');
     const header = document.createElement('h2');
     const taskName = document.createElement('input');
@@ -83,7 +86,7 @@ export function addTaskForm() {
         priority.add(priority3);
         priority.add(priority4);
 
-    content.appendChild(taskForm);
+    formAlign.appendChild(taskForm);
     taskForm.appendChild(header);
     taskForm.appendChild(taskName);
     taskForm.appendChild(taskDescription);
@@ -120,11 +123,13 @@ function closeTaskForm() {
     taskForm.hidden = true;
 
     clearTaskForm();
+    hideFormOverlayBg();
 }
 
 function openTaskForm() {
     const taskForm = document.getElementById('task-form');
     taskForm.hidden = false;
+    displayFormOverlayBg();
 }
 
 export function addPlusTaskButton(element) {
@@ -197,6 +202,9 @@ export function editSelectProjectOption(project, projectIndex) {
 // Editing task form (user cannot change the 'project' the task is in yet - may add later)
 export function editTaskForm() {
     const taskArea = document.querySelector('.task-area');
+    const formAlign = document.createElement('div');
+    formAlign.classList.add('form-align');
+    taskArea.appendChild(formAlign);
     const taskForm = document.createElement('form');
     const header = document.createElement('h2');
     const taskName = document.createElement('input');
@@ -264,7 +272,7 @@ export function editTaskForm() {
         priority.add(priority3);
         priority.add(priority4);
 
-    taskArea.appendChild(taskForm);
+    formAlign.appendChild(taskForm);
     taskForm.appendChild(header);
     taskForm.appendChild(taskName);
     taskForm.appendChild(taskDescription);
@@ -278,6 +286,7 @@ export function editTaskForm() {
 export function closeEditTaskForm() {
     const taskForm = document.getElementById('edit-task-form');
     taskForm.hidden = true;
+    hideFormOverlayBg();
 }
 
 // Opens the edit task form (to allow viewing or editing)
@@ -304,6 +313,7 @@ export function openEditTaskForm() {
     };
 
     taskForm.hidden = false;
+    displayFormOverlayBg();
 }
 
 // Saves the new task info into the array, closes the edit task form, and then displays the tasks
