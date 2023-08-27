@@ -7,8 +7,6 @@ import plusSVGIcon from "./Icons/plus-thick.svg";
 export function addTaskForm() {
     const content = document.getElementById('content');
     const formAlign = document.createElement('div');
-    formAlign.classList.add('form-align');
-    content.appendChild(formAlign);
     const taskForm = document.createElement('form');
     const header = document.createElement('h2');
     const taskName = document.createElement('input');
@@ -57,6 +55,7 @@ export function addTaskForm() {
 
     cancelButton.value = 'cancel';
 
+    formAlign.classList.add('form-align');
     cancelButton.onclick = closeTaskForm;
 
         // Priority Options
@@ -86,6 +85,7 @@ export function addTaskForm() {
         priority.add(priority3);
         priority.add(priority4);
 
+    content.appendChild(formAlign);
     formAlign.appendChild(taskForm);
     taskForm.appendChild(header);
     taskForm.appendChild(taskName);
@@ -203,8 +203,6 @@ export function editSelectProjectOption(project, projectIndex) {
 export function editTaskForm() {
     const taskArea = document.querySelector('.task-area');
     const formAlign = document.createElement('div');
-    formAlign.classList.add('form-align');
-    taskArea.appendChild(formAlign);
     const taskForm = document.createElement('form');
     const header = document.createElement('h2');
     const taskName = document.createElement('input');
@@ -243,6 +241,7 @@ export function editTaskForm() {
 
     cancelButton.value = 'cancel';
 
+    formAlign.classList.add('form-align');
     cancelButton.onclick = closeEditTaskForm;
 
         // Priority Options
@@ -272,6 +271,7 @@ export function editTaskForm() {
         priority.add(priority3);
         priority.add(priority4);
 
+    taskArea.appendChild(formAlign);
     formAlign.appendChild(taskForm);
     taskForm.appendChild(header);
     taskForm.appendChild(taskName);

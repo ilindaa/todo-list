@@ -1,13 +1,11 @@
 import { projectFactory, allProjects } from "./project";
 import { addSelectProjectOption, editSelectProjectOption } from "./taskForm";
-import { displayUserProjects, clearProjectTitleAndDisplayTask, displayFormOverlayBg, hideFormOverlayBg } from "./display";
+import { displayUserProjects, displayFormOverlayBg, hideFormOverlayBg, selectAndDisplayInbox } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
 
 export function addProjectForm() {
     const content = document.getElementById('content');
     const formAlign = document.createElement('div');
-    formAlign.classList.add('form-align');
-    content.appendChild(formAlign);
     const projectForm = document.createElement('form');
     const header = document.createElement('h2');
     const projectNameLabel = document.createElement('label');
@@ -38,8 +36,10 @@ export function addProjectForm() {
 
     cancelButton.value = 'cancel';
 
+    formAlign.classList.add('form-align');
     cancelButton.onclick = closeProjectForm;
 
+    content.appendChild(formAlign);
     formAlign.appendChild(projectForm);
     projectForm.appendChild(header);
     projectForm.appendChild(projectNameLabel);
@@ -103,8 +103,6 @@ function addProject() {
 export function editProjectForm() {
     const projectsArea = document.querySelector('.projects-area');
     const formAlign = document.createElement('div');
-    formAlign.classList.add('form-align');
-    projectsArea.appendChild(formAlign);
     const projectForm = document.createElement('form');
     const header = document.createElement('h2');
     const projectNameLabel = document.createElement('label');
@@ -131,8 +129,11 @@ export function editProjectForm() {
     saveButton.textContent = 'Save';
 
     cancelButton.value = 'cancel';
+
+    formAlign.classList.add('form-align');
     cancelButton.onclick = closeEditProjectForm;
 
+    projectsArea.appendChild(formAlign);
     formAlign.appendChild(projectForm);
     projectForm.appendChild(header);
     projectForm.appendChild(projectNameLabel);
@@ -175,6 +176,6 @@ function saveProjectName(project, projectIndex) {
 
     closeEditProjectForm();
     displayUserProjects();
-    clearProjectTitleAndDisplayTask();
+    selectAndDisplayInbox();
     editSelectProjectOption(project, parseInt(projectIndex));
 }

@@ -88,23 +88,16 @@ export function displayUserProjects() {
     }
 }
 
-// Remove a project from the array, options, and projects-area; clear the task area and re-display projects-area
+// Remove a project from the array, options, and projects-area; select and re-display the inbox and re-display projects-area
 function removeProject(event) {
     // Stop propagation so only the inner element function is executed and not the button's function
     event.stopPropagation();
     const projectIndex = parseInt(this.parentElement.parentElement.dataset.projectIndex);
-    clearProjectTitleAndDisplayTask();
+    selectAndDisplayInbox();
     allProjects.userArr.splice(projectIndex, 1);
     removeSelectProjectOption(projectIndex);
     displayUserProjects();
     closeEditProjectForm();
-}
-
-export function clearProjectTitleAndDisplayTask() {
-    const taskTitle = document.querySelector('.task-title');
-    const taskContent = document.querySelector('.task-content');
-    taskTitle.innerHTML = '';
-    taskContent.innerHTML = '';
 }
 
 export function displayProjectTitle() {
@@ -242,10 +235,16 @@ function removeTask() {
     closeEditTaskForm();
 }
 
+// Set the active tab when a default/user project is selected, remove active class for tab when there is nothing selected (removing projects)
 function setActiveTab() {
     let prev = document.getElementsByClassName('active');
     if (prev.length > 0) {
         prev[0].className = prev[0].className.replace('active', '');
+    }
+    if (this === undefined) {
+        const inbox = document.querySelector('[data-default-project-index="0"]');
+        inbox.classList.add('active');
+        return;
     }
     this.classList.add('active');
     closeEditProjectForm();
@@ -259,4 +258,10 @@ export function displayFormOverlayBg() {
 export function hideFormOverlayBg() {
     const formOverlay = document.querySelector('.form-overlay-bg');
     formOverlay.style.display = 'none';
+}
+
+export function selectAndDisplayInbox() {
+    const inbox = document.querySelector('[data-default-project-index="0"]');
+    inbox.classList.add('active');
+    displayProjectTitle();
 }
