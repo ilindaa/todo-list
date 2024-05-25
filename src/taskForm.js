@@ -8,6 +8,7 @@ export function addTaskForm() {
     const content = document.getElementById('content');
     const formAlign = document.createElement('div');
     const taskForm = document.createElement('form');
+    const formContentDiv = document.createElement('div');
     const header = document.createElement('h2');
     const taskNameLabel = document.createElement('label');
     const taskName = document.createElement('input');
@@ -62,10 +63,11 @@ export function addTaskForm() {
 
     cancelButton.value = 'cancel';
 
+    formAlign.classList.add('form-align');
+    formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
     cancelButton.classList.add('cancel-button');
     addTaskButton.classList.add('add-save-button');
-    formAlign.classList.add('form-align');
 
     cancelButton.onclick = closeTaskForm;
 
@@ -92,7 +94,8 @@ export function addTaskForm() {
 
     content.appendChild(formAlign);
     formAlign.appendChild(taskForm);
-    taskForm.append(header, taskNameLabel, taskName, taskDescriptionLabel, taskDescription, dueDateLabel, dueDate, priorityLabel, priority, projectLabel, project, formButtonsDiv);
+    taskForm.append(formContentDiv);
+    formContentDiv.append(header, taskNameLabel, taskName, taskDescriptionLabel, taskDescription, dueDateLabel, dueDate, priorityLabel, priority, projectLabel, project, formButtonsDiv);
     formButtonsDiv.append(cancelButton, addTaskButton);
     document.getElementById('priority').value = 'p4';
 
@@ -191,6 +194,7 @@ export function editTaskForm() {
     const taskArea = document.querySelector('.task-area');
     const formAlign = document.createElement('div');
     const taskForm = document.createElement('form');
+    const formContentDiv = document.createElement('div');
     const header = document.createElement('h2');
     const taskName = document.createElement('input');
     const taskNameLabel = document.createElement('label');
@@ -240,6 +244,7 @@ export function editTaskForm() {
     cancelButton.value = 'cancel';
 
     formAlign.classList.add('form-align');
+    formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
     cancelButton.classList.add('cancel-button');
     saveButton.classList.add('add-save-button');
@@ -269,7 +274,8 @@ export function editTaskForm() {
 
     taskArea.appendChild(formAlign);
     formAlign.appendChild(taskForm);
-    taskForm.append(header, taskNameLabel, taskName, taskDescriptionLabel, taskDescription, dueDateLabel, dueDate, priorityLabel, priority, projectLabel, project, formButtonsDiv);
+    taskForm.append(formContentDiv);
+    formContentDiv.append(header, taskNameLabel, taskName, taskDescriptionLabel, taskDescription, dueDateLabel, dueDate, priorityLabel, priority, projectLabel, project, formButtonsDiv);
     formButtonsDiv.append(cancelButton, saveButton);
 }
 
@@ -285,6 +291,7 @@ export function openEditTaskForm() {
     const taskDescription = document.getElementById('edit-description');
     const dueDate = document.getElementById('edit-date');
     const priority = document.getElementById('edit-priority');
+    const project = document.getElementById('edit-project');
 
     let { currentProjectIndex, array } = getCurrentIndexAndArray();
 
@@ -295,6 +302,7 @@ export function openEditTaskForm() {
     taskDescription.value = task.description;
     dueDate.value = task.dueDate;
     priority.value = task.priority;
+    project.value = task.project;
 
     taskForm.onsubmit = function(event) {
         event.preventDefault();

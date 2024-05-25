@@ -87,11 +87,14 @@ function removeProject(event) {
     // Stop propagation so only the inner element function is executed and not the button's function
     event.stopPropagation();
     const projectIndex = parseInt(this.parentElement.parentElement.dataset.projectIndex);
-    selectAndDisplayInbox();
-    allProjects.userArr.splice(projectIndex, 1);
-    removeSelectProjectOption(projectIndex);
-    displayUserProjects();
-    closeEditProjectForm();
+    if (confirm(`Are you sure you want to remove "${allProjects.userArr[projectIndex].name}" from the existing projects?\nNote: This action cannot be undone.`)) {
+        selectAndDisplayInbox();
+        allProjects.userArr.splice(projectIndex, 1);
+        removeSelectProjectOption(projectIndex);
+        displayUserProjects();
+
+        closeEditProjectForm();
+    }
 }
 
 export function displayProjectTitle() {
@@ -217,10 +220,12 @@ export function displayTasks() {
 function removeTask() {
     let { currentProjectIndex, array } = getCurrentIndexAndArray();
     const taskIndex = parseInt(this.parentElement.parentElement.dataset.taskIndex);
-    array[currentProjectIndex].todoArray.splice(taskIndex, 1);
+    if (confirm(`Are you sure you want to remove "${array[currentProjectIndex].todoArray[taskIndex].title}" from ${array[currentProjectIndex].name}?\nNote: This action cannot be undone.`)) {
+        array[currentProjectIndex].todoArray.splice(taskIndex, 1);
 
-    displayTasks();
-    closeEditTaskForm();
+        displayTasks();
+        closeEditTaskForm();
+    }
 }
 
 // Set the active tab when a default/user project is selected, remove active class for tab when there is nothing selected (removing projects)

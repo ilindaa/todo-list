@@ -7,6 +7,7 @@ export function addProjectForm() {
     const content = document.getElementById('content');
     const formAlign = document.createElement('div');
     const projectForm = document.createElement('form');
+    const formContentDiv = document.createElement('div');
     const header = document.createElement('h2');
     const projectNameLabel = document.createElement('label');
     const projectName = document.createElement('input');
@@ -38,6 +39,7 @@ export function addProjectForm() {
     cancelButton.value = 'cancel';
 
     formAlign.classList.add('form-align');
+    formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
     cancelButton.classList.add('cancel-button');
     addProjectButton.classList.add('add-save-button');
@@ -46,7 +48,8 @@ export function addProjectForm() {
 
     content.appendChild(formAlign);
     formAlign.appendChild(projectForm);
-    projectForm.append(header, projectNameLabel, projectName, formButtonsDiv);
+    projectForm.append(formContentDiv);
+    formContentDiv.append(header, projectNameLabel, projectName, formButtonsDiv);
     formButtonsDiv.append(cancelButton, addProjectButton);
 }
 
@@ -102,6 +105,7 @@ export function editProjectForm() {
     const projectsArea = document.querySelector('.projects-area');
     const formAlign = document.createElement('div');
     const projectForm = document.createElement('form');
+    const formContentDiv = document.createElement('div');
     const header = document.createElement('h2');
     const projectNameLabel = document.createElement('label');
     const projectName = document.createElement('input');
@@ -130,6 +134,7 @@ export function editProjectForm() {
     cancelButton.value = 'cancel';
 
     formAlign.classList.add('form-align');
+    formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
     cancelButton.classList.add('cancel-button');
     saveButton.classList.add('add-save-button');
@@ -138,7 +143,8 @@ export function editProjectForm() {
 
     projectsArea.appendChild(formAlign);
     formAlign.appendChild(projectForm);
-    projectForm.append(header, projectNameLabel, projectName, formButtonsDiv);
+    projectForm.append(formContentDiv);
+    formContentDiv.append(header, projectNameLabel, projectName, formButtonsDiv);
     formButtonsDiv.append(cancelButton, saveButton);
 }
 
