@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Calibri;
+    font-family: 'Segoe UI', Roboto;
     overflow-wrap: anywhere;
 }
 
@@ -10,7 +10,7 @@
     --p1-color: #d1453b;
     --p2-color: #eb8909;
     --p3-color: #246fe0;
-    --p4-color: #666;
+    --p4-color: #eee;
     --border-corners: 0.3rem;
     --gray-color: #eee;
     --lighter-gray-color: #f5f5f5;
@@ -18,6 +18,7 @@
     --navbar-color: #517cba;
     --light-navbar-color: #85a5d1;
     --dark-navbar-color: #24549a;
+    --dark-gray-color: #444;
 }
 
 .navbar {
@@ -33,7 +34,7 @@
     align-items: center;
 }
 
-.logo,
+.logo, 
 #content > button {
     color: var(--white-color);
     font-weight: bold;
@@ -228,25 +229,15 @@ form {
 }
 
 .form-align,
-form,
-.form-overlay-bg {
+form {
     position: fixed;
 }
 
 form {
     background-color: var(--white-color);
+    border: 1.5px solid var(--gray-color);
     width: 28rem;
     padding: 1rem;
-}
-
-.form-overlay-bg {
-    display: none;
-    background: rgba(0, 0, 0, 0.3);
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
 }
 
 form > h2 {
@@ -254,23 +245,32 @@ form > h2 {
     padding-bottom: 0.5rem;
 }
 
-form > button {
+/* Div for form buttons (add-save and cancel) */
+.form-buttons-div {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.add-save-button,
+.cancel-button {
     font-weight: bold;
     padding: 0.4rem 1.1rem;
 }
 
-form > button:hover {
+.add-save-button:hover,
+.cancel-button:hover {
     filter: brightness(0.9);
 }
 
-form > button[type="submit"] {
+.add-save-button {
     background-color: var(--navbar-color);
     color: var(--white-color);
 }
 
-form > button[type="button"] {
+.cancel-button {
     background-color: var(--gray-color);
-    color: var(--p4-color);
+    color: var(--dark-gray-color);
 }
 
 label {
@@ -278,12 +278,18 @@ label {
 }
 
 input,
-select {
+select, 
+textarea {
     font-size: 1rem;
     border: 1px solid var(--gray-color);
     width: 100%;
+    max-width: 100%;
     outline: none;
     padding: 0.3rem;
+}
+
+textarea {
+    min-height: 5rem;
 }
 
 input:focus,
@@ -295,12 +301,4 @@ select:focus {
 .logo-svg {
     height: 1.5rem;
     width: 1.5rem;
-}
-
-.white-svg-icon {
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
-}
-
-.gray-svg-icon {
-    filter: invert(42%) sepia(0%) saturate(1%) hue-rotate(46deg) brightness(93%) contrast(88%);
 }

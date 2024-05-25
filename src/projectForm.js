@@ -1,6 +1,6 @@
 import { projectFactory, allProjects } from "./project";
 import { addSelectProjectOption, editSelectProjectOption } from "./taskForm";
-import { displayUserProjects, displayFormOverlayBg, hideFormOverlayBg, selectAndDisplayInbox } from "./display";
+import { displayUserProjects, selectAndDisplayInbox } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
 
 export function addProjectForm() {
@@ -10,10 +10,11 @@ export function addProjectForm() {
     const header = document.createElement('h2');
     const projectNameLabel = document.createElement('label');
     const projectName = document.createElement('input');
+    const formButtonsDiv = document.createElement('div');
     const cancelButton = document.createElement('button');
     const addProjectButton = document.createElement('button');
 
-    projectForm.hidden = true;
+    projectForm.style.display = 'none';
     projectForm.onsubmit = function(event) {
         event.preventDefault();
         addProject();
@@ -37,34 +38,33 @@ export function addProjectForm() {
     cancelButton.value = 'cancel';
 
     formAlign.classList.add('form-align');
+    formButtonsDiv.classList.add('form-buttons-div');
+    cancelButton.classList.add('cancel-button');
+    addProjectButton.classList.add('add-save-button');
+    
     cancelButton.onclick = closeProjectForm;
 
     content.appendChild(formAlign);
     formAlign.appendChild(projectForm);
-    projectForm.appendChild(header);
-    projectForm.appendChild(projectNameLabel);
-    projectForm.appendChild(projectName);
-    projectForm.appendChild(cancelButton);
-    projectForm.appendChild(addProjectButton);
+    projectForm.append(header, projectNameLabel, projectName, formButtonsDiv);
+    formButtonsDiv.append(cancelButton, addProjectButton);
 }
 
 function clearProjectForm() {
-    const projectName = document.getElementById('project-name');
-    projectName.value = '';
+    const projectForm = document.getElementById('project-form');
+    projectForm.reset();
 }
 
 function closeProjectForm() {
     const projectForm = document.getElementById('project-form');
-    projectForm.hidden = true;
+    projectForm.style.display = 'none';
 
     clearProjectForm();
-    hideFormOverlayBg();
 }
 
 function openProjectForm() {
     const projectForm = document.getElementById('project-form');
-    projectForm.hidden = false;
-    displayFormOverlayBg();
+    projectForm.style.display = 'block';
 }
 
 export function addPlusProjectButton(element) {
@@ -77,11 +77,9 @@ export function addPlusProjectButton(element) {
 
     buttonText.textContent = 'Add Project';
 
-    pIcon.classList.add('white-svg-icon');
     pIcon.src = plusSVGIcon;
 
-    plusButton.appendChild(pIcon);
-    plusButton.appendChild(buttonText);
+    plusButton.append(pIcon, buttonText);
     
     plusButton.onclick = openProjectForm;
 
@@ -107,6 +105,7 @@ export function editProjectForm() {
     const header = document.createElement('h2');
     const projectNameLabel = document.createElement('label');
     const projectName = document.createElement('input');
+    const formButtonsDiv = document.createElement('div');
     const cancelButton = document.createElement('button');
     const saveButton = document.createElement('button');
 
@@ -120,7 +119,7 @@ export function editProjectForm() {
     projectName.id = 'edit-project-name';
     saveButton.id = 'save-project-name';
 
-    projectForm.hidden = true;
+    projectForm.style.display = 'none';
     projectName.required = true;
 
     header.textContent = 'Edit Project';
@@ -131,21 +130,21 @@ export function editProjectForm() {
     cancelButton.value = 'cancel';
 
     formAlign.classList.add('form-align');
+    formButtonsDiv.classList.add('form-buttons-div');
+    cancelButton.classList.add('cancel-button');
+    saveButton.classList.add('add-save-button');
+
     cancelButton.onclick = closeEditProjectForm;
 
     projectsArea.appendChild(formAlign);
     formAlign.appendChild(projectForm);
-    projectForm.appendChild(header);
-    projectForm.appendChild(projectNameLabel);
-    projectForm.appendChild(projectName);
-    projectForm.appendChild(cancelButton);
-    projectForm.appendChild(saveButton);
+    projectForm.append(header, projectNameLabel, projectName, formButtonsDiv);
+    formButtonsDiv.append(cancelButton, saveButton);
 }
 
 export function closeEditProjectForm() {
     const projectForm = document.getElementById('edit-project-form');
-    projectForm.hidden = true;
-    hideFormOverlayBg();
+    projectForm.style.display = 'none';
 }
 
 // Opens the edit project form (to allow viewing or editing)
@@ -165,8 +164,7 @@ export function openEditProjectForm(event) {
         saveProjectName(project, projectIndex);
     }
 
-    projectForm.hidden = false;
-    displayFormOverlayBg();
+    projectForm.style.display = 'block';
 }
 
 // Saves the new project name into the array, edit the select project option, display projects again and clear task area

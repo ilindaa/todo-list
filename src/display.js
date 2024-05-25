@@ -24,7 +24,6 @@ export function displayDefaultProjects() {
 
         if (i === 0) {
             const iIcon = new Image(25, 25);
-            iIcon.classList.add('gray-svg-icon');
             iIcon.src = inboxSVGIcon;
             projectNameDiv.appendChild(iIcon);
         }
@@ -68,9 +67,6 @@ export function displayUserProjects() {
         const eIcon = new Image(25, 25);
         const dIcon = new Image(25, 25);
 
-        eIcon.classList.add('gray-svg-icon');
-        dIcon.classList.add('gray-svg-icon');
-
         eIcon.src = editSVGIcon;
         dIcon.src = closeSVGIcon;
 
@@ -81,9 +77,7 @@ export function displayUserProjects() {
         deleteIcon.onclick = removeProject;
 
         projectButton.appendChild(buttonsDiv);
-        buttonsDiv.appendChild(editIcon);
-        buttonsDiv.appendChild(deleteIcon);
-
+        buttonsDiv.append(editIcon, deleteIcon);
         projectsContent.appendChild(projectButton);
     }
 }
@@ -204,9 +198,6 @@ export function displayTasks() {
         const eIcon = new Image(25, 25);
         const dIcon = new Image(25, 25);
 
-        eIcon.classList.add('gray-svg-icon');
-        dIcon.classList.add('gray-svg-icon');
-
         eIcon.src = editSVGIcon;
         dIcon.src = closeSVGIcon;
 
@@ -217,12 +208,9 @@ export function displayTasks() {
         deleteIcon.onclick = removeTask;
 
         taskContent.appendChild(todoDiv);
-        todoDiv.appendChild(todoDivLeftDiv);
-        todoDiv.appendChild(todoDivRightDiv);
-        todoDivLeftDiv.appendChild(title);
-        todoDivLeftDiv.appendChild(dueDate);
-        todoDivRightDiv.appendChild(editIcon);
-        todoDivRightDiv.appendChild(deleteIcon);
+        todoDiv.append(todoDivLeftDiv, todoDivRightDiv);
+        todoDivLeftDiv.append(title, dueDate);
+        todoDivRightDiv.append(editIcon, deleteIcon);
     }
 }
 
@@ -248,16 +236,6 @@ function setActiveTab() {
     }
     this.classList.add('active');
     closeEditProjectForm();
-}
-
-export function displayFormOverlayBg() {
-    const formOverlay = document.querySelector('.form-overlay-bg');
-    formOverlay.style.display = 'block';
-}
-
-export function hideFormOverlayBg() {
-    const formOverlay = document.querySelector('.form-overlay-bg');
-    formOverlay.style.display = 'none';
 }
 
 export function selectAndDisplayInbox() {
