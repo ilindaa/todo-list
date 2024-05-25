@@ -3,7 +3,7 @@ import { allProjects } from "./project";
 import { displayTasks, getCurrentIndexAndArray } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
 
-// Add Task Form
+// Add Task Form - creates the task form to add a new task, add the default (and user project options)
 export function addTaskForm() {
     const content = document.getElementById('content');
     const formAlign = document.createElement('div');
@@ -100,12 +100,12 @@ export function addTaskForm() {
     document.getElementById('priority').value = 'p4';
 
     // Project Options (we start off with Inbox only)
-    addSelectProjectOption('Inbox');
-    addSelectProjectOption('Pog'); // TESTING
-    addSelectProjectOption('Test'); // TESTING
+    addSelectProjectOption(project, 'Inbox');
+    addSelectProjectOption(project, 'Pog'); // TESTING
+    addSelectProjectOption(project, 'Test'); // TESTING
 }
 
-/* Past me, you don't need to reset every field... */
+// Past me, you don't need to reset every field...
 function clearTaskForm() {
     const taskForm = document.getElementById('task-form');
     taskForm.reset();
@@ -123,6 +123,7 @@ function openTaskForm() {
     taskForm.style.display = 'block';
 }
 
+// Navbar add plus task button
 export function addPlusTaskButton(element) {
     const plusButton = document.createElement('button');
     plusButton.type = 'button';
@@ -143,6 +144,7 @@ export function addPlusTaskButton(element) {
     element.appendChild(plusButton);
 }
 
+// Adds a task to a project in allProjects
 export function addTask() {
     const taskName = document.getElementById('name');
     const taskDescription = document.getElementById('description');
@@ -166,8 +168,9 @@ export function addTask() {
     displayTasks();
 }
 
-export function addSelectProjectOption(optionName) {
-    const project = document.getElementById('project');
+// Adds a select option to projects (so the user can assign a task to a specific project)
+// project input element can be from Add Task or Edit Task
+export function addSelectProjectOption(project, optionName) {
     const projectOption = document.createElement('option');
 
     projectOption.text = optionName;
@@ -177,19 +180,19 @@ export function addSelectProjectOption(optionName) {
     project.add(projectOption);
 }
 
-export function removeSelectProjectOption(projectIndex) {
-    const project = document.getElementById('project');
+// project input element can be from Add Task or Edit Task
+export function removeSelectProjectOption(project, projectIndex) {
     project.remove(projectIndex+1);
 }
 
-export function editSelectProjectOption(project, projectIndex) {
-    const projectSelectList = document.getElementById('project');
+// project input element can be from Add Task or Edit Task
+export function editSelectProjectOption(project, projectSelectList, projectIndex) {
     projectSelectList.options[projectIndex+1].value = project.name;
     projectSelectList.options[projectIndex+1].id = project.name;
     projectSelectList.options[projectIndex+1].textContent = project.name;
 }
 
-// Editing task form (user cannot change the 'project' the task is in yet - may add later)
+// Editing task form - creates a form to edit an existing task, add the default (and user project options)
 export function editTaskForm() {
     const taskArea = document.querySelector('.task-area');
     const formAlign = document.createElement('div');
@@ -277,6 +280,11 @@ export function editTaskForm() {
     taskForm.append(formContentDiv);
     formContentDiv.append(header, taskNameLabel, taskName, taskDescriptionLabel, taskDescription, dueDateLabel, dueDate, priorityLabel, priority, projectLabel, project, formButtonsDiv);
     formButtonsDiv.append(cancelButton, saveButton);
+
+    // Project Options (we start off with Inbox only)
+    addSelectProjectOption(project, 'Inbox');
+    addSelectProjectOption(project, 'Pog'); // TESTING
+    addSelectProjectOption(project, 'Test'); // TESTING
 }
 
 export function closeEditTaskForm() {
@@ -312,17 +320,19 @@ export function openEditTaskForm() {
     taskForm.style.display = 'block';
 }
 
-// Saves the new task info into the array, closes the edit task form, and then displays the tasks
+// Saves or updates the new task info into the array, closes the edit task form, and then re-displays the tasks
 function saveTaskInfo(task) {
     const newTaskName = document.getElementById('edit-name');
     const newTaskDescription = document.getElementById('edit-description');
     const newDueDate = document.getElementById('edit-date');
     const newPriority = document.getElementById('edit-priority');
+    const newProject = document.getElementById('edit-project');
 
     task.title = newTaskName.value;
     task.description = newTaskDescription.value;
     task.dueDate = newDueDate.value;
     task.priority = newPriority.value;
+    task.project = newProject.value;
 
     closeEditTaskForm();
     displayTasks();

@@ -90,7 +90,10 @@ function removeProject(event) {
     if (confirm(`Are you sure you want to remove "${allProjects.userArr[projectIndex].name}" from the existing projects?\nNote: This action cannot be undone.`)) {
         selectAndDisplayInbox();
         allProjects.userArr.splice(projectIndex, 1);
-        removeSelectProjectOption(projectIndex);
+        const project = document.getElementById('project');
+        const editProject = document.getElementById('edit-project');
+        removeSelectProjectOption(project, projectIndex);
+        removeSelectProjectOption(editProject, projectIndex);
         displayUserProjects();
 
         closeEditProjectForm();
@@ -154,7 +157,6 @@ export function getCurrentIndexAndArray() {
 }
 
 export function displayTasks() {
-    closeEditTaskForm();
     const taskContent = document.querySelector('.task-content');
     taskContent.innerHTML = '';
 

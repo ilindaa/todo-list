@@ -1,8 +1,9 @@
 import { projectFactory, allProjects } from "./project";
-import { addSelectProjectOption, editSelectProjectOption } from "./taskForm";
+import { addSelectProjectOption, editSelectProjectOption } from "./taskForm"; /* For adding and editing the select project options */
 import { displayUserProjects, selectAndDisplayInbox } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
 
+// Add Project Form - creates a project form to add a new project
 export function addProjectForm() {
     const content = document.getElementById('content');
     const formAlign = document.createElement('div');
@@ -70,6 +71,7 @@ function openProjectForm() {
     projectForm.style.display = 'block';
 }
 
+// Navbar add plus project button
 export function addPlusProjectButton(element) {
     const plusButton = document.createElement('button');
     plusButton.type = 'button';
@@ -89,18 +91,22 @@ export function addPlusProjectButton(element) {
     element.appendChild(plusButton);
 }
 
+// Adds a project to allProjects, also add the select option to the Add Project and Edit Project select lists
 function addProject() {
     const projectName = document.getElementById('project-name');
-    const project = projectFactory(projectName.value, []);
-    allProjects.userArr.push(project);
+    const newProject = projectFactory(projectName.value, []);
+    allProjects.userArr.push(newProject);
+    const project = document.getElementById('project');
+    const editProject = document.getElementById('edit-project');
 
-    addSelectProjectOption(projectName.value);
+    addSelectProjectOption(project, projectName.value);
+    addSelectProjectOption(editProject, projectName.value);
 
     closeProjectForm();
     displayUserProjects();
 }
 
-// Editing project form
+// Editing project form - creates a form to edit an existing project
 export function editProjectForm() {
     const projectsArea = document.querySelector('.projects-area');
     const formAlign = document.createElement('div');
@@ -173,13 +179,16 @@ export function openEditProjectForm(event) {
     projectForm.style.display = 'block';
 }
 
-// Saves the new project name into the array, edit the select project option, display projects again and clear task area
+// Saves or updates the new project name into the array, edits the select option for the add and edit task forms, and clears the task area and re-displays projects again
 function saveProjectName(project, projectIndex) {
     const newProjectName = document.getElementById('edit-project-name');
     project.name = newProjectName.value;
+    const projectSelectList = document.getElementById('project');
+    const editProjectSelectList = document.getElementById('edit-project');
 
     closeEditProjectForm();
     displayUserProjects();
     selectAndDisplayInbox();
-    editSelectProjectOption(project, parseInt(projectIndex));
+    editSelectProjectOption(project, projectSelectList, parseInt(projectIndex));
+    editSelectProjectOption(project, editProjectSelectList, parseInt(projectIndex));
 }
