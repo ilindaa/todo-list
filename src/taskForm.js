@@ -1,6 +1,6 @@
 import { todoFactory } from "./todo";
 import { allProjects } from "./project";
-import { displayTasks, getCurrentIndexAndArray } from "./display";
+import { displayTasks, getCurrentIndexAndArray, openModalOverlay, closeModalOverlay } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
 
 // Add Task Form - creates the task form to add a new task, add the default (and user project options)
@@ -24,7 +24,6 @@ export function addTaskForm() {
     const cancelButton = document.createElement('button');
     const addTaskButton = document.createElement('button');
 
-    taskForm.style.display = 'none';
     taskForm.onsubmit = function(event) {
         event.preventDefault();
         addTask();
@@ -63,6 +62,7 @@ export function addTaskForm() {
 
     cancelButton.value = 'cancel';
 
+    taskForm.classList.add('close-form');
     formAlign.classList.add('form-align');
     formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
@@ -113,14 +113,17 @@ function clearTaskForm() {
 
 function closeTaskForm() {
     const taskForm = document.getElementById('task-form');
-    taskForm.style.display = 'none';
+    taskForm.classList.replace('open-form', 'close-form');
 
     clearTaskForm();
+    closeModalOverlay();
 }
 
 function openTaskForm() {
     const taskForm = document.getElementById('task-form');
-    taskForm.style.display = 'block';
+    taskForm.classList.replace('close-form', 'open-form');
+
+    openModalOverlay();
 }
 
 // Navbar add plus task button
@@ -213,7 +216,6 @@ export function editTaskForm() {
     const cancelButton = document.createElement('button');
     const saveButton = document.createElement('button');
 
-    taskForm.style.display = 'none';
     taskName.required = true;
     priority.required = true;
 
@@ -246,6 +248,7 @@ export function editTaskForm() {
 
     cancelButton.value = 'cancel';
 
+    taskForm.classList.add('close-form');
     formAlign.classList.add('form-align');
     formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
@@ -289,7 +292,9 @@ export function editTaskForm() {
 
 export function closeEditTaskForm() {
     const taskForm = document.getElementById('edit-task-form');
-    taskForm.style.display = 'none';
+    taskForm.classList.replace('open-form', 'close-form');
+
+    closeModalOverlay();
 }
 
 // Opens the edit task form (to allow viewing or editing)
@@ -317,7 +322,8 @@ export function openEditTaskForm() {
         saveTaskInfo(task);
     };
 
-    taskForm.style.display = 'block';
+    taskForm.classList.replace('close-form', 'open-form');
+    openModalOverlay();
 }
 
 // Saves or updates the new task info into the array, closes the edit task form, and then re-displays the tasks

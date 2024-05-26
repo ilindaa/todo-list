@@ -250,3 +250,23 @@ export function selectAndDisplayInbox() {
     inbox.classList.add('active');
     displayProjectTitle();
 }
+
+export function closeFormWithModalOverlay() {
+    const modalOverlay = document.querySelector('.modal-overlay');
+    modalOverlay.addEventListener('click', () => {
+        const openForm = document.querySelector('.open-form');
+        console.log(openForm);
+        openForm.classList.replace('open-form', 'close-form');
+        closeModalOverlay();
+    })
+}
+
+export function openModalOverlay() {
+    const modalOverlay = document.querySelector('.modal-overlay');
+    modalOverlay.classList.replace('close-modal-overlay', 'open-modal-overlay');
+}
+
+export function closeModalOverlay() {
+    const modalOverlay = document.querySelector('.modal-overlay');
+    modalOverlay.classList.replace('open-modal-overlay', 'close-modal-overlay');
+}

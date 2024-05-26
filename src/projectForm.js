@@ -1,6 +1,6 @@
 import { projectFactory, allProjects } from "./project";
 import { addSelectProjectOption, editSelectProjectOption } from "./taskForm"; /* For adding and editing the select project options */
-import { displayUserProjects, selectAndDisplayInbox } from "./display";
+import { displayUserProjects, selectAndDisplayInbox, openModalOverlay, closeModalOverlay } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
 
 // Add Project Form - creates a project form to add a new project
@@ -16,7 +16,6 @@ export function addProjectForm() {
     const cancelButton = document.createElement('button');
     const addProjectButton = document.createElement('button');
 
-    projectForm.style.display = 'none';
     projectForm.onsubmit = function(event) {
         event.preventDefault();
         addProject();
@@ -39,6 +38,7 @@ export function addProjectForm() {
 
     cancelButton.value = 'cancel';
 
+    projectForm.classList.add('close-form');
     formAlign.classList.add('form-align');
     formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
@@ -61,14 +61,17 @@ function clearProjectForm() {
 
 function closeProjectForm() {
     const projectForm = document.getElementById('project-form');
-    projectForm.style.display = 'none';
+    projectForm.classList.replace('open-form', 'close-form');
 
     clearProjectForm();
+    closeModalOverlay();
 }
 
 function openProjectForm() {
     const projectForm = document.getElementById('project-form');
-    projectForm.style.display = 'block';
+    projectForm.classList.replace('close-form', 'open-form');
+
+    openModalOverlay();
 }
 
 // Navbar add plus project button
@@ -129,7 +132,6 @@ export function editProjectForm() {
     projectName.id = 'edit-project-name';
     saveButton.id = 'save-project-name';
 
-    projectForm.style.display = 'none';
     projectName.required = true;
 
     header.textContent = 'Edit Project';
@@ -139,6 +141,7 @@ export function editProjectForm() {
 
     cancelButton.value = 'cancel';
 
+    projectForm.classList.add('close-form');
     formAlign.classList.add('form-align');
     formContentDiv.classList.add('form-content-div');
     formButtonsDiv.classList.add('form-buttons-div');
@@ -156,7 +159,9 @@ export function editProjectForm() {
 
 export function closeEditProjectForm() {
     const projectForm = document.getElementById('edit-project-form');
-    projectForm.style.display = 'none';
+    projectForm.classList.replace('open-form', 'close-form');
+
+    closeModalOverlay();
 }
 
 // Opens the edit project form (to allow viewing or editing)
@@ -176,7 +181,8 @@ export function openEditProjectForm(event) {
         saveProjectName(project, projectIndex);
     }
 
-    projectForm.style.display = 'block';
+    projectForm.classList.replace('close-form', 'open-form');
+    openModalOverlay();
 }
 
 // Saves or updates the new project name into the array, edits the select option for the add and edit task forms, and clears the task area and re-displays projects again
