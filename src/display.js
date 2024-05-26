@@ -255,7 +255,6 @@ export function closeFormWithModalOverlay() {
     const modalOverlay = document.querySelector('.modal-overlay');
     modalOverlay.addEventListener('click', () => {
         const openForm = document.querySelector('.open-form');
-        console.log(openForm);
         openForm.classList.replace('open-form', 'close-form');
         closeModalOverlay();
     })

@@ -319,26 +319,35 @@ export function openEditTaskForm() {
 
     taskForm.onsubmit = function(event) {
         event.preventDefault();
-        saveTaskInfo(task);
+        saveTaskInfo(currentProjectIndex, array, taskIndex);
     };
 
     taskForm.classList.replace('close-form', 'open-form');
     openModalOverlay();
 }
 
+// Delete from the existing project and then add to the new project
 // Saves or updates the new task info into the array, closes the edit task form, and then re-displays the tasks
-function saveTaskInfo(task) {
+function saveTaskInfo(currentProjectIndex, array, taskIndex) {
     const newTaskName = document.getElementById('edit-name');
     const newTaskDescription = document.getElementById('edit-description');
     const newDueDate = document.getElementById('edit-date');
     const newPriority = document.getElementById('edit-priority');
     const newProject = document.getElementById('edit-project');
+    const newTask = todoFactory(newTaskName.value, newTaskDescription.value, newDueDate.value, newPriority.value, newProject.value);
 
-    task.title = newTaskName.value;
-    task.description = newTaskDescription.value;
-    task.dueDate = newDueDate.value;
-    task.priority = newPriority.value;
-    task.project = newProject.value;
+    // If the user selected inbox, push the task into inbox else loop through the user's projects and push it into the respective one
+    if (newProject.value === allProjects.defaultArr[0].name) {
+        allProjects.defaultArr[0].todoArray.push(newTask);
+    } else {
+        for (let i = 0; i < allProjects.userArr.length; i++) {
+            if (newProject.value === allProjects.userArr[i].name) {
+                allProjects.userArr[i].todoArray.push(newTask);
+            }
+        }
+    }
+    
+    array[currentProjectIndex].todoArray.splice(taskIndex, 1);
 
     closeEditTaskForm();
     displayTasks();
