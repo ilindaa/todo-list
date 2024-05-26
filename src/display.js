@@ -1,4 +1,3 @@
-import { allProjects } from "./project";
 import { openEditProjectForm, closeEditProjectForm } from "./projectForm";
 import { openEditTaskForm, closeEditTaskForm, removeSelectProjectOption } from "./taskForm";
 import editSVGIcon from "./Icons/square-edit-outline.svg";
@@ -7,8 +6,9 @@ import inboxSVGIcon from "./Icons/inbox-svgrepo-com.svg";
 
 export function displayDefaultProjects() {
     const defaultContent = document.querySelector('.default-content');
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
-    for (let i = 0; i < allProjects.defaultArr.length; i++) {
+    for (let i = 0; i < localProjects.defaultArr.length; i++) {
         const projectButton = document.createElement('button');
         const projectNameDiv = document.createElement('div');
 
@@ -29,7 +29,7 @@ export function displayDefaultProjects() {
         }
 
         const buttonText = document.createElement('div');
-        buttonText.textContent = allProjects.defaultArr[i].name;
+        buttonText.textContent = localProjects.defaultArr[i].name;
         projectNameDiv.appendChild(buttonText);
 
         defaultContent.appendChild(projectButton);
@@ -40,8 +40,9 @@ export function displayDefaultProjects() {
 export function displayUserProjects() {
     const projectsContent = document.querySelector('.projects-content');
     projectsContent.innerHTML = '';
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
-    for (let i = 0; i < allProjects.userArr.length; i++) {
+    for (let i = 0; i < localProjects.userArr.length; i++) {
         const projectButton = document.createElement('button');
         const projectName = document.createElement('div');
         
@@ -51,7 +52,7 @@ export function displayUserProjects() {
         projectButton.onclick = displayProjectTitle;
         projectButton.addEventListener('click', setActiveTab);
 
-        projectName.textContent = allProjects.userArr[i].name;
+        projectName.textContent = localProjects.userArr[i].name;
         
         projectButton.appendChild(projectName);
 
@@ -87,9 +88,11 @@ function removeProject(event) {
     // Stop propagation so only the inner element function is executed and not the button's function
     event.stopPropagation();
     const projectIndex = parseInt(this.parentElement.parentElement.dataset.projectIndex);
-    if (confirm(`Are you sure you want to remove "${allProjects.userArr[projectIndex].name}" from the existing projects?\nNote: This action cannot be undone.`)) {
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
+
+    if (confirm(`Are you sure you want to remove "${localProjects.userArr[projectIndex].name}" from the existing projects?\nNote: This action cannot be undone.`)) {
         selectAndDisplayInbox();
-        allProjects.userArr.splice(projectIndex, 1);
+        localProjects.userArr.splice(projectIndex, 1);
         const project = document.getElementById('project');
         const editProject = document.getElementById('edit-project');
         removeSelectProjectOption(project, projectIndex);
@@ -101,6 +104,7 @@ function removeProject(event) {
 }
 
 export function displayProjectTitle() {
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
     let defaultProjectIndex;
     let projectIndex;
 
@@ -120,14 +124,14 @@ export function displayProjectTitle() {
 
     // Check if the user clicked on a default project or a user project
     if (!isNaN(defaultProjectIndex)) {
-        header.textContent = allProjects.defaultArr[defaultProjectIndex].name;
+        header.textContent = localProjects.defaultArr[defaultProjectIndex].name;
         header.dataset.defaultProjectIndex = defaultProjectIndex;
     }
 
     if (!isNaN(projectIndex)) {
         // If there is nothing in the user array at the index, return nothing (task-area is not updated)
-        if (allProjects.userArr[projectIndex] == undefined) return;
-        header.textContent = allProjects.userArr[projectIndex].name;
+        if (localProjects.userArr[projectIndex] == undefined) return;
+        header.textContent = localProjects.userArr[projectIndex].name;
         header.dataset.projectIndex = projectIndex;
     }
 
@@ -140,17 +144,18 @@ export function getCurrentIndexAndArray() {
     const header = document.querySelector('.task-header');
     const defaultProjectIndex = parseInt(header.dataset.defaultProjectIndex);
     const projectIndex = parseInt(header.dataset.projectIndex);
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
     let currentProjectIndex;
     let array;
 
     if (!isNaN(defaultProjectIndex)) {
         currentProjectIndex = defaultProjectIndex;
-        array = allProjects.defaultArr;
+        array = localProjects.defaultArr;
     }
 
     if (!isNaN(projectIndex)) {
         currentProjectIndex = projectIndex;
-        array = allProjects.userArr;
+        array = localProjects.userArr;
     }
 
     return { currentProjectIndex, array };

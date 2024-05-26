@@ -1,7 +1,8 @@
-import { projectFactory, allProjects } from "./project";
+import { projectFactory } from "./project";
 import { addSelectProjectOption, editSelectProjectOption } from "./taskForm"; /* For adding and editing the select project options */
 import { displayUserProjects, selectAndDisplayInbox, openModalOverlay, closeModalOverlay } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
+import { updateLocalTodoList } from "./localStorage";
 
 // Add Project Form - creates a project form to add a new project
 export function addProjectForm() {
@@ -94,11 +95,14 @@ export function addPlusProjectButton(element) {
     element.appendChild(plusButton);
 }
 
-// Adds a project to allProjects, also add the select option to the Add Project and Edit Project select lists
+// Adds a project to localProjects, also add the select option to the Add Project and Edit Project select lists
 function addProject() {
     const projectName = document.getElementById('project-name');
     const newProject = projectFactory(projectName.value, []);
-    allProjects.userArr.push(newProject);
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
+    localProjects.userArr.push(newProject);
+    updateLocalTodoList(localProjects);
+
     const project = document.getElementById('project');
     const editProject = document.getElementById('edit-project');
 
@@ -171,14 +175,15 @@ export function openEditProjectForm(event) {
     const projectForm = document.getElementById('edit-project-form');
     const projectName = document.getElementById('edit-project-name');
     const projectIndex = this.parentElement.parentElement.dataset.projectIndex;
-
-    const project = allProjects.userArr[projectIndex];
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
+    const project = localProjects.userArr[projectIndex];
 
     projectName.value = project.name;
 
     projectForm.onsubmit = function(event) {
         event.preventDefault();
         saveProjectName(project, projectIndex);
+        updateLocalTodoList(localProjects);
     }
 
     projectForm.classList.replace('close-form', 'open-form');

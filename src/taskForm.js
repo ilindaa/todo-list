@@ -1,7 +1,7 @@
 import { todoFactory } from "./todo";
-import { allProjects } from "./project";
 import { displayTasks, getCurrentIndexAndArray, openModalOverlay, closeModalOverlay } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
+import { updateLocalTodoList } from "./localStorage";
 
 // Add Task Form - creates the task form to add a new task, add the default (and user project options)
 export function addTaskForm() {
@@ -147,7 +147,7 @@ export function addPlusTaskButton(element) {
     element.appendChild(plusButton);
 }
 
-// Adds a task to a project in allProjects
+// Adds a task to a project in localProjects
 export function addTask() {
     const taskName = document.getElementById('name');
     const taskDescription = document.getElementById('description');
@@ -155,18 +155,20 @@ export function addTask() {
     const priority = document.getElementById('priority');
     const project = document.getElementById('project');
     const task = todoFactory(taskName.value, taskDescription.value, dueDate.value, priority.value, project.value);
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
     // If the user selected inbox, push the task into inbox else loop through the user's projects and push it into the respective one
-    if (project.value === allProjects.defaultArr[0].name) {
-        allProjects.defaultArr[0].todoArray.push(task);
+    if (project.value === localProjects.defaultArr[0].name) {
+        localProjects.defaultArr[0].todoArray.push(task);
     } else {
-        for (let i = 0; i < allProjects.userArr.length; i++) {
-            if (project.value === allProjects.userArr[i].name) {
-                allProjects.userArr[i].todoArray.push(task);
+        for (let i = 0; i < localProjects.userArr.length; i++) {
+            if (project.value === localProjects.userArr[i].name) {
+                localProjects.userArr[i].todoArray.push(task);
             }
         }
     }
 
+    updateLocalTodoList(localProjects);
     closeTaskForm();
     displayTasks();
 }
@@ -335,20 +337,22 @@ function saveTaskInfo(currentProjectIndex, array, taskIndex) {
     const newPriority = document.getElementById('edit-priority');
     const newProject = document.getElementById('edit-project');
     const newTask = todoFactory(newTaskName.value, newTaskDescription.value, newDueDate.value, newPriority.value, newProject.value);
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
     // If the user selected inbox, push the task into inbox else loop through the user's projects and push it into the respective one
-    if (newProject.value === allProjects.defaultArr[0].name) {
-        allProjects.defaultArr[0].todoArray.push(newTask);
+    if (newProject.value === localProjects.defaultArr[0].name) {
+        localProjects.defaultArr[0].todoArray.push(newTask);
     } else {
-        for (let i = 0; i < allProjects.userArr.length; i++) {
-            if (newProject.value === allProjects.userArr[i].name) {
-                allProjects.userArr[i].todoArray.push(newTask);
+        for (let i = 0; i < localProjects.userArr.length; i++) {
+            if (newProject.value === localProjects.userArr[i].name) {
+                localProjects.userArr[i].todoArray.push(newTask);
             }
         }
     }
     
     array[currentProjectIndex].todoArray.splice(taskIndex, 1);
 
+    updateLocalTodoList(localProjects);
     closeEditTaskForm();
     displayTasks();
 }
