@@ -330,3 +330,9 @@ select:focus {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4);
 }
+
+.clear-local-storage {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}

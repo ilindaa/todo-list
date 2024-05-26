@@ -182,8 +182,7 @@ export function openEditProjectForm(event) {
 
     projectForm.onsubmit = function(event) {
         event.preventDefault();
-        saveProjectName(project, projectIndex);
-        updateLocalTodoList(localProjects);
+        saveProjectName(project, projectIndex, localProjects);
     }
 
     projectForm.classList.replace('close-form', 'open-form');
@@ -191,15 +190,16 @@ export function openEditProjectForm(event) {
 }
 
 // Saves or updates the new project name into the array, edits the select option for the add and edit task forms, and clears the task area and re-displays projects again
-function saveProjectName(project, projectIndex) {
+function saveProjectName(project, projectIndex, localProjects) {
     const newProjectName = document.getElementById('edit-project-name');
     project.name = newProjectName.value;
     const projectSelectList = document.getElementById('project');
     const editProjectSelectList = document.getElementById('edit-project');
 
+    updateLocalTodoList(localProjects);
+    editSelectProjectOption(newProjectName, projectSelectList, parseInt(projectIndex));
+    editSelectProjectOption(newProjectName, editProjectSelectList, parseInt(projectIndex));
     closeEditProjectForm();
     displayUserProjects();
     selectAndDisplayInbox();
-    editSelectProjectOption(project, projectSelectList, parseInt(projectIndex));
-    editSelectProjectOption(project, editProjectSelectList, parseInt(projectIndex));
 }

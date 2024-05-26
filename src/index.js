@@ -9,7 +9,6 @@ addPlusProjectButton(document.getElementById('content'));
 addTaskForm();
 addProjectForm();
 
-/* clearLocalStorage() */ /* TESTING */
 runLocalStorage();
 
 editProjectForm();
@@ -18,3 +17,4 @@ editTaskForm();
 closeFormWithModalOverlay();
 
 selectAndDisplayInbox();
+clearLocalStorage();

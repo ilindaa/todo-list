@@ -108,7 +108,11 @@ export function addTaskForm() {
 // Past me, you don't need to reset every field...
 function clearTaskForm() {
     const taskForm = document.getElementById('task-form');
+    const dueDate = document.getElementById('date');
+    const priority = document.getElementById('priority');
     taskForm.reset();
+    dueDate.valueAsDate = new Date();
+    priority.value = 'p4';
 }
 
 function closeTaskForm() {
@@ -191,10 +195,10 @@ export function removeSelectProjectOption(project, projectIndex) {
 }
 
 // project input element can be from Add Task or Edit Task
-export function editSelectProjectOption(project, projectSelectList, projectIndex) {
-    projectSelectList.options[projectIndex+1].value = project.name;
-    projectSelectList.options[projectIndex+1].id = project.name;
-    projectSelectList.options[projectIndex+1].textContent = project.name;
+export function editSelectProjectOption(newProjectName, projectSelectList, projectIndex) {
+    projectSelectList.options[projectIndex+1].value = newProjectName.value;
+    projectSelectList.options[projectIndex+1].id = newProjectName.value;
+    projectSelectList.options[projectIndex+1].textContent = newProjectName.value;
 }
 
 // Editing task form - creates a form to edit an existing task, add the default (and user project options)

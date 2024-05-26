@@ -32,9 +32,11 @@ function addSampleTodoListContent() {
 
 // Clears the local storage
 export function clearLocalStorage() {
-    localStorage.clear();
-/*     if (confirm("Are you sure you want to clear the local storage? This action will restore Todo List to its original state and refresh the page.\nThis action cannot be undone.")) {
-        localStorage.clear();
-        location.reload();
-    } */
+    const clearLocalStorage = document.querySelector('.clear-local-storage');
+    clearLocalStorage.addEventListener('click', () => {
+        if (confirm("Are you sure you want to clear the local storage? This action will restore Todo List to its original state and refresh the page.\nThis action cannot be undone.")) {
+            localStorage.clear();
+            location.reload();
+        }
+    });
 }
