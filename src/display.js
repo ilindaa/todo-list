@@ -3,12 +3,13 @@ import { openEditTaskForm, closeEditTaskForm, removeSelectProjectOption } from "
 import editSVGIcon from "./Icons/square-edit-outline.svg";
 import closeSVGIcon from "./Icons/trash-can-outline.svg";
 import inboxSVGIcon from "./Icons/inbox-svgrepo-com.svg";
+import { updateLocalTodoList } from "./localStorage";
 
 export function displayDefaultProjects() {
     const defaultContent = document.querySelector('.default-content');
     const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
-    for (let i = 0; i < localProjects.defaultArr.length; i++) {
+    for (let i = 0; i < localProjects['defaultArr'].length; i++) {
         const projectButton = document.createElement('button');
         const projectNameDiv = document.createElement('div');
 
@@ -29,7 +30,7 @@ export function displayDefaultProjects() {
         }
 
         const buttonText = document.createElement('div');
-        buttonText.textContent = localProjects.defaultArr[i].name;
+        buttonText.textContent = localProjects['defaultArr'][i].name;
         projectNameDiv.appendChild(buttonText);
 
         defaultContent.appendChild(projectButton);
@@ -42,7 +43,7 @@ export function displayUserProjects() {
     projectsContent.innerHTML = '';
     const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
-    for (let i = 0; i < localProjects.userArr.length; i++) {
+    for (let i = 0; i < localProjects['userArr'].length; i++) {
         const projectButton = document.createElement('button');
         const projectName = document.createElement('div');
         
@@ -52,7 +53,7 @@ export function displayUserProjects() {
         projectButton.onclick = displayProjectTitle;
         projectButton.addEventListener('click', setActiveTab);
 
-        projectName.textContent = localProjects.userArr[i].name;
+        projectName.textContent = localProjects['userArr'][i].name;
         
         projectButton.appendChild(projectName);
 
@@ -90,15 +91,14 @@ function removeProject(event) {
     const projectIndex = parseInt(this.parentElement.parentElement.dataset.projectIndex);
     const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
-    if (confirm(`Are you sure you want to remove "${localProjects.userArr[projectIndex].name}" from the existing projects?\nNote: This action cannot be undone.`)) {
+    if (confirm(`Are you sure you want to remove "${localProjects['userArr'][projectIndex].name}" from the existing projects?\nNote: This action cannot be undone.`)) {
         selectAndDisplayInbox();
-        localProjects.userArr.splice(projectIndex, 1);
-        const project = document.getElementById('project');
-        const editProject = document.getElementById('edit-project');
-        removeSelectProjectOption(project, projectIndex);
-        removeSelectProjectOption(editProject, projectIndex);
-        displayUserProjects();
+        localProjects['userArr'].splice(projectIndex, 1);
 
+        removeSelectProjectOption(projectIndex);
+
+        updateLocalTodoList(localProjects);
+        displayUserProjects();
         closeEditProjectForm();
     }
 }
@@ -124,14 +124,14 @@ export function displayProjectTitle() {
 
     // Check if the user clicked on a default project or a user project
     if (!isNaN(defaultProjectIndex)) {
-        header.textContent = localProjects.defaultArr[defaultProjectIndex].name;
+        header.textContent = localProjects['defaultArr'][defaultProjectIndex].name;
         header.dataset.defaultProjectIndex = defaultProjectIndex;
     }
 
     if (!isNaN(projectIndex)) {
         // If there is nothing in the user array at the index, return nothing (task-area is not updated)
-        if (localProjects.userArr[projectIndex] == undefined) return;
-        header.textContent = localProjects.userArr[projectIndex].name;
+        if (localProjects['userArr'][projectIndex] == undefined) return;
+        header.textContent = localProjects['userArr'][projectIndex].name;
         header.dataset.projectIndex = projectIndex;
     }
 
@@ -150,12 +150,12 @@ export function getCurrentIndexAndArray() {
 
     if (!isNaN(defaultProjectIndex)) {
         currentProjectIndex = defaultProjectIndex;
-        array = localProjects.defaultArr;
+        array = 'defaultArr';
     }
 
     if (!isNaN(projectIndex)) {
         currentProjectIndex = projectIndex;
-        array = localProjects.userArr;
+        array = 'userArr';
     }
 
     return { currentProjectIndex, array };
@@ -165,16 +165,17 @@ export function displayTasks() {
     const taskContent = document.querySelector('.task-content');
     taskContent.innerHTML = '';
 
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
     let { currentProjectIndex, array } = getCurrentIndexAndArray();
 
-    for (let i = 0; i < array[currentProjectIndex].todoArray.length; i++) {
+    for (let i = 0; i < localProjects[array][currentProjectIndex]['todoArray'].length; i++) {
         const todoDiv = document.createElement('div');
         const todoDivLeftDiv = document.createElement('div');
         const todoDivRightDiv = document.createElement('div');
 
         const title = document.createElement('div');
         const dueDate = document.createElement('div');
-        const todo = array[currentProjectIndex].todoArray[i];
+        const todo = localProjects[array][currentProjectIndex]['todoArray'][i];
 
         todoDiv.classList.add('sidebar-task');
         todoDivLeftDiv.classList.add('sidebar-task-left');
@@ -225,11 +226,13 @@ export function displayTasks() {
 }
 
 function removeTask() {
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
     let { currentProjectIndex, array } = getCurrentIndexAndArray();
     const taskIndex = parseInt(this.parentElement.parentElement.dataset.taskIndex);
-    if (confirm(`Are you sure you want to remove "${array[currentProjectIndex].todoArray[taskIndex].title}" from ${array[currentProjectIndex].name}?\nNote: This action cannot be undone.`)) {
-        array[currentProjectIndex].todoArray.splice(taskIndex, 1);
+    if (confirm(`Are you sure you want to remove "${localProjects[array][currentProjectIndex]['todoArray'][taskIndex].title}" from ${localProjects[array][currentProjectIndex].name}?\nNote: This action cannot be undone.`)) {
+        localProjects[array][currentProjectIndex]['todoArray'].splice(taskIndex, 1);
 
+        updateLocalTodoList(localProjects);
         displayTasks();
         closeEditTaskForm();
     }
@@ -273,4 +276,26 @@ export function openModalOverlay() {
 export function closeModalOverlay() {
     const modalOverlay = document.querySelector('.modal-overlay');
     modalOverlay.classList.replace('open-modal-overlay', 'close-modal-overlay');
+}
+
+// Display the select project options
+export function displaySelectProjectOptions() {
+    const project = document.getElementById('project');
+    const editProject = document.getElementById('edit-project');
+    const localSelectOptions = JSON.parse(localStorage.getItem("projectSelectList"));
+
+    for (let i = 0; i < localSelectOptions['projectOptions'].length; i++) {
+        const projectOption = document.createElement('option');
+        projectOption.text = localSelectOptions['projectOptions'][i];
+        projectOption.value = localSelectOptions['projectOptions'][i];
+        projectOption.id = localSelectOptions['projectOptions'][i];
+
+        const editProjectOption = document.createElement('option');
+        editProjectOption.text = localSelectOptions['projectOptions'][i];
+        editProjectOption.value = localSelectOptions['projectOptions'][i];
+        editProjectOption.id = localSelectOptions['projectOptions'][i];
+        
+        project.add(projectOption);
+        editProject.add(editProjectOption);
+    }
 }

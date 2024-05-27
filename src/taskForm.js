@@ -1,7 +1,7 @@
 import { todoFactory } from "./todo";
 import { displayTasks, getCurrentIndexAndArray, openModalOverlay, closeModalOverlay } from "./display";
 import plusSVGIcon from "./Icons/plus-thick.svg";
-import { updateLocalTodoList } from "./localStorage";
+import { updateLocalTodoList, updateLocalSelectList } from "./localStorage";
 
 // Add Task Form - creates the task form to add a new task, add the default (and user project options)
 export function addTaskForm() {
@@ -98,11 +98,6 @@ export function addTaskForm() {
     formContentDiv.append(header, taskNameLabel, taskName, taskDescriptionLabel, taskDescription, dueDateLabel, dueDate, priorityLabel, priority, projectLabel, project, formButtonsDiv);
     formButtonsDiv.append(cancelButton, addTaskButton);
     document.getElementById('priority').value = 'p4';
-
-    // Project Options (we start off with Inbox only)
-    addSelectProjectOption(project, 'Inbox');
-    addSelectProjectOption(project, 'Pog'); // TESTING
-    addSelectProjectOption(project, 'Test'); // TESTING
 }
 
 // Past me, you don't need to reset every field...
@@ -162,12 +157,12 @@ export function addTask() {
     const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
     // If the user selected inbox, push the task into inbox else loop through the user's projects and push it into the respective one
-    if (project.value === localProjects.defaultArr[0].name) {
-        localProjects.defaultArr[0].todoArray.push(task);
+    if (project.value === localProjects['defaultArr'][0].name) {
+        localProjects['defaultArr'][0]['todoArray'].push(task);
     } else {
-        for (let i = 0; i < localProjects.userArr.length; i++) {
-            if (project.value === localProjects.userArr[i].name) {
-                localProjects.userArr[i].todoArray.push(task);
+        for (let i = 0; i < localProjects['userArr'].length; i++) {
+            if (project.value === localProjects['userArr'][i].name) {
+                localProjects['userArr'][i]['todoArray'].push(task);
             }
         }
     }
@@ -178,27 +173,56 @@ export function addTask() {
 }
 
 // Adds a select option to projects (so the user can assign a task to a specific project)
-// project input element can be from Add Task or Edit Task
-export function addSelectProjectOption(project, optionName) {
-    const projectOption = document.createElement('option');
+export function addSelectProjectOption(optionName) {
+    const project = document.getElementById('project');
+    const editProject = document.getElementById('edit-project');
 
+    const localSelectOptions = JSON.parse(localStorage.getItem("projectSelectList"));
+    localSelectOptions['projectOptions'].push(optionName);
+    updateLocalSelectList(localSelectOptions);
+
+    const projectOption = document.createElement('option');
     projectOption.text = optionName;
     projectOption.value = optionName;
     projectOption.id = optionName; 
 
+    const editProjectOption = document.createElement('option');
+    editProjectOption.text = optionName;
+    editProjectOption.value = optionName;
+    editProjectOption.id = optionName; 
+
     project.add(projectOption);
+    editProject.add(editProjectOption);
 }
 
-// project input element can be from Add Task or Edit Task
-export function removeSelectProjectOption(project, projectIndex) {
+// Removes a select option to projects (so the user can't assign a task to the removed project anymore)
+export function removeSelectProjectOption(projectIndex) {
+    const project = document.getElementById('project');
+    const editProject = document.getElementById('edit-project');
+    const localSelectOptions = JSON.parse(localStorage.getItem("projectSelectList"));
+    localSelectOptions['projectOptions'].splice(projectIndex+1, 1);
+    updateLocalSelectList(localSelectOptions);
+
     project.remove(projectIndex+1);
+    editProject.remove(projectIndex+1);
 }
 
-// project input element can be from Add Task or Edit Task
-export function editSelectProjectOption(newProjectName, projectSelectList, projectIndex) {
+// Edit a select option from projects (when the user changes the name of a project)
+export function editSelectProjectOption(newProjectName, projectIndex) {
+    const projectSelectList = document.getElementById('project');
+    const editProjectSelectList = document.getElementById('edit-project');
+
+    const localSelectOptions = JSON.parse(localStorage.getItem("projectSelectList"));
+    localSelectOptions['projectOptions'][projectIndex+1] = newProjectName.value;
+    updateLocalSelectList(localSelectOptions);
+
     projectSelectList.options[projectIndex+1].value = newProjectName.value;
     projectSelectList.options[projectIndex+1].id = newProjectName.value;
     projectSelectList.options[projectIndex+1].textContent = newProjectName.value;
+
+    editProjectSelectList.options[projectIndex+1].value = newProjectName.value;
+    editProjectSelectList.options[projectIndex+1].id = newProjectName.value;
+    editProjectSelectList.options[projectIndex+1].textContent = newProjectName.value;
 }
 
 // Editing task form - creates a form to edit an existing task, add the default (and user project options)
@@ -289,11 +313,6 @@ export function editTaskForm() {
     taskForm.append(formContentDiv);
     formContentDiv.append(header, taskNameLabel, taskName, taskDescriptionLabel, taskDescription, dueDateLabel, dueDate, priorityLabel, priority, projectLabel, project, formButtonsDiv);
     formButtonsDiv.append(cancelButton, saveButton);
-
-    // Project Options (we start off with Inbox only)
-    addSelectProjectOption(project, 'Inbox');
-    addSelectProjectOption(project, 'Pog'); // TESTING
-    addSelectProjectOption(project, 'Test'); // TESTING
 }
 
 export function closeEditTaskForm() {
@@ -312,10 +331,11 @@ export function openEditTaskForm() {
     const priority = document.getElementById('edit-priority');
     const project = document.getElementById('edit-project');
 
+    const localProjects = JSON.parse(localStorage.getItem("todoList"));
     let { currentProjectIndex, array } = getCurrentIndexAndArray();
 
     const taskIndex = this.parentElement.parentElement.dataset.taskIndex;
-    const task = array[currentProjectIndex].todoArray[taskIndex];
+    const task = localProjects[array][currentProjectIndex]['todoArray'][taskIndex];
 
     taskName.value = task.title;
     taskDescription.value = task.description;
@@ -344,17 +364,17 @@ function saveTaskInfo(currentProjectIndex, array, taskIndex) {
     const localProjects = JSON.parse(localStorage.getItem("todoList"));
 
     // If the user selected inbox, push the task into inbox else loop through the user's projects and push it into the respective one
-    if (newProject.value === localProjects.defaultArr[0].name) {
-        localProjects.defaultArr[0].todoArray.push(newTask);
+    if (newProject.value === localProjects['defaultArr'][0].name) {
+        localProjects['defaultArr'][0]['todoArray'].push(newTask);
     } else {
-        for (let i = 0; i < localProjects.userArr.length; i++) {
-            if (newProject.value === localProjects.userArr[i].name) {
-                localProjects.userArr[i].todoArray.push(newTask);
+        for (let i = 0; i < localProjects['userArr'].length; i++) {
+            if (newProject.value === localProjects['userArr'][i].name) {
+                localProjects['userArr'][i]['todoArray'].push(newTask);
             }
         }
     }
     
-    array[currentProjectIndex].todoArray.splice(taskIndex, 1);
+    localProjects[array][currentProjectIndex]['todoArray'].splice(taskIndex, 1);
 
     updateLocalTodoList(localProjects);
     closeEditTaskForm();

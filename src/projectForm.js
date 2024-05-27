@@ -100,14 +100,10 @@ function addProject() {
     const projectName = document.getElementById('project-name');
     const newProject = projectFactory(projectName.value, []);
     const localProjects = JSON.parse(localStorage.getItem("todoList"));
-    localProjects.userArr.push(newProject);
+    localProjects['userArr'].push(newProject);
     updateLocalTodoList(localProjects);
 
-    const project = document.getElementById('project');
-    const editProject = document.getElementById('edit-project');
-
-    addSelectProjectOption(project, projectName.value);
-    addSelectProjectOption(editProject, projectName.value);
+    addSelectProjectOption(projectName.value);
 
     closeProjectForm();
     displayUserProjects();
@@ -176,7 +172,7 @@ export function openEditProjectForm(event) {
     const projectName = document.getElementById('edit-project-name');
     const projectIndex = this.parentElement.parentElement.dataset.projectIndex;
     const localProjects = JSON.parse(localStorage.getItem("todoList"));
-    const project = localProjects.userArr[projectIndex];
+    const project = localProjects['userArr'][projectIndex];
 
     projectName.value = project.name;
 
@@ -193,12 +189,9 @@ export function openEditProjectForm(event) {
 function saveProjectName(project, projectIndex, localProjects) {
     const newProjectName = document.getElementById('edit-project-name');
     project.name = newProjectName.value;
-    const projectSelectList = document.getElementById('project');
-    const editProjectSelectList = document.getElementById('edit-project');
 
     updateLocalTodoList(localProjects);
-    editSelectProjectOption(newProjectName, projectSelectList, parseInt(projectIndex));
-    editSelectProjectOption(newProjectName, editProjectSelectList, parseInt(projectIndex));
+    editSelectProjectOption(newProjectName, parseInt(projectIndex));
     closeEditProjectForm();
     displayUserProjects();
     selectAndDisplayInbox();

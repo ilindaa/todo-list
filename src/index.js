@@ -1,7 +1,7 @@
 import './style.css';
 import { addTaskForm, addPlusTaskButton, editTaskForm } from './taskForm';
 import { addProjectForm, addPlusProjectButton, editProjectForm } from './projectForm';
-import { closeFormWithModalOverlay, selectAndDisplayInbox } from './display'; 
+import { closeFormWithModalOverlay, displaySelectProjectOptions, selectAndDisplayInbox } from './display'; 
 import { runLocalStorage, clearLocalStorage } from './localStorage';
 
 addPlusTaskButton(document.getElementById('content'));
@@ -17,4 +17,6 @@ editTaskForm();
 closeFormWithModalOverlay();
 
 selectAndDisplayInbox();
+displaySelectProjectOptions(); 
+
 clearLocalStorage();

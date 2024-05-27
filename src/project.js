@@ -14,3 +14,8 @@ export const allProjects = (() => {
     {name: 'Test', todoArray: [ {title: 'Test4', description: 'D5', dueDate: '2023-08-17', priority: 'p4', project: 'Test'} ]} ];
     return { defaultArr, userArr };
 })();
+
+export const allOptions = (() => {
+    let projectOptions = [ 'Inbox', 'Pog', 'Test' ];
+    return { projectOptions };
+})();
