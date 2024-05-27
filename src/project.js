@@ -6,16 +6,17 @@ export const projectFactory = (name, todoArray) => {
 
 // Module Pattern
 export const allProjects = (() => {
-    let defaultArr = [ {name: 'Inbox', todoArray: [ {title: 'Test1', description: 'D1', dueDate: '2023-08-06', priority: 'p1', project: 'Inbox'}, 
-    {title: 'Test2', description: 'D2', dueDate: '', priority: 'p2', project: 'Inbox'},
-    {title: 'Test5', description: 'D3', dueDate: '2023-08-18', priority: 'p3', project: 'Inbox'},
+    let defaultArr = [ {name: 'Inbox', todoArray: [ {title: 'Trash Day', description: 'Throw the trash out before tomorrow.', dueDate: '2024-05-27', priority: 'p1', project: 'Inbox'}, 
+    {title: 'Bathroom Cleaning', description: 'Wash the shower and bath tub.', dueDate: '2024-06-08', priority: 'p4', project: 'Inbox'},
+    {title: 'Sweep the Floors', description: 'Sweep the kitchen and hallways.', dueDate: '2024-05-31', priority: 'p3', project: 'Inbox'},
+    {title: 'Do the Dishes', description: 'Wash the dirty dishes in the sink.', dueDate: '2024-05-28', priority: 'p2', project: 'Inbox'},
     ] }, ];
-    let userArr =  [ {name: 'Pog', todoArray: [ {title: 'Test3', description: 'D4', dueDate: '2023-08-17', priority: 'p4', project: 'Pog'} ]},
-    {name: 'Test', todoArray: [ {title: 'Test4', description: 'D5', dueDate: '2023-08-17', priority: 'p4', project: 'Test'} ]} ];
+    let userArr =  [ {name: 'Study', todoArray: [ {title: 'Practice Coding', description: '', dueDate: '2024-05-27', priority: 'p1', project: 'Study'} ]},
+    {name: 'Work', todoArray: [ {title: 'Apply for Jobs', description: 'Send out job applications.', dueDate: '', priority: 'p1', project: 'Work'} ]} ];
     return { defaultArr, userArr };
 })();
 
 export const allOptions = (() => {
-    let projectOptions = [ 'Inbox', 'Pog', 'Test' ];
+    let projectOptions = [ 'Inbox', 'Study', 'Work' ];
     return { projectOptions };
 })();

@@ -264,7 +264,8 @@ form {
 
 .add-save-button:hover,
 .cancel-button:hover, 
-#content > button:hover {
+#content > button:hover,
+.clear-local-storage:hover {
     filter: brightness(0.9);
 }
 
@@ -333,6 +334,7 @@ select:focus {
 
 .clear-local-storage {
     position: fixed;
-    right: 0;
-    bottom: 0;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    padding: 0.2rem 0.5rem;
 }
